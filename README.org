@@ -8,7 +8,7 @@
 - [[#hyprland-configuration][Hyprland Configuration]]
   - [[#monitors][Monitors]]
   - [[#startup][Startup]]
-  - [[#default-programs][Default Programs]]
+  - [[#variables][Variables]]
   - [[#environment-variables][Environment Variables]]
   - [[#input][Input]]
   - [[#general][General]]
@@ -74,12 +74,13 @@ Source a file (multi-file configs)
 # source = ~/.config/hypr/myColors.conf
 #+END_SRC
 
-** Default Programs
+** Variables
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 $terminal = kitty
 $fileManager = thunar
 $menu = wofi --show drun
+$notification-center = swaync-client -t -sw
 #+END_SRC
 
 ** Environment Variables
@@ -356,5 +357,5 @@ bindm = $mainMod, mouse:273, resizewindow
 **** SwayNotificationCenter
 
 #+BEGIN_SRC conf :tangle hyprland.conf
-bindm = $mainMod SHIFT, N, exec, swaync-client -t -sw
+bind = $mainMod SHIFT, N, exec, $notification-center
 #+END_SRC
