@@ -65,7 +65,7 @@ Execute these apps on launch
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 # exec-once = waybar & hyprpaper & firefox
-exec-once = swaync
+exec-once = swaync & /usr/lib/polkit-kde-authentication-agent-1
 #+END_SRC
 
 Source a file (multi-file configs)
