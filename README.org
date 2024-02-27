@@ -1,0 +1,340 @@
+#+TITLE: Personal Hyprland Configuration
+#+AUTHOR: Sravan Balaji
+#+AUTO_TANGLE: t
+#+STARTUP: showeverything
+
+* Table of Contents :TOC_3:noexport:
+- [[#welcome][Welcome]]
+- [[#hyprland-configuration][Hyprland Configuration]]
+  - [[#monitors][Monitors]]
+  - [[#startup][Startup]]
+  - [[#default-programs][Default Programs]]
+  - [[#environment-variables][Environment Variables]]
+  - [[#input][Input]]
+  - [[#general][General]]
+  - [[#decoration][Decoration]]
+  - [[#animations][Animations]]
+  - [[#layouts][Layouts]]
+    - [[#dwindle][Dwindle]]
+    - [[#master][Master]]
+  - [[#gestures][Gestures]]
+  - [[#miscellaneous][Miscellaneous]]
+  - [[#per-device-input][Per-Device Input]]
+  - [[#window-rule][Window Rule]]
+  - [[#keybindings][Keybindings]]
+    - [[#modifier-key][Modifier Key]]
+    - [[#general-1][General]]
+    - [[#move-focus][Move Focus]]
+    - [[#switch-workspaces][Switch Workspaces]]
+    - [[#move-window-to-workspace][Move Window to Workspace]]
+    - [[#special-workspace][Special Workspace]]
+    - [[#scroll-through-workspaces][Scroll Through Workspaces]]
+    - [[#moveresize-windows][Move/Resize Windows]]
+
+* Welcome
+
+My personal configuration of hyprland, written as an [[https://orgmode.org][Org Mode]] document.
+
+Run the block below with ~C-c C-c~ to tangle code blocks to config file.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(org-mode-restart)
+(org-babel-tangle)
+#+END_SRC
+
+* Hyprland Configuration
+
+[[https://wiki.hyprland.org/Configuring/Configuring-Hyprland/][Hyprland Wiki - Configuring Hyprland]]
+
+** Monitors
+
+[[https://wiki.hyprland.org/Configuring/Monitors/][Hyprland Wiki - Monitors]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+monitor=,preferred,auto,auto
+#+END_SRC
+
+** Startup
+
+[[https://wiki.hyprland.org/Configuring/Keywords/][Hyprland Wiki - Keywords]]
+
+Execute these apps on launch
+- ~exec-once=command~ will execute only on launch
+- ~exec=command~ will execute on each reload
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+# exec-once = waybar & hyprpaper & firefox
+#+END_SRC
+
+Source a file (multi-file configs)
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+# source = ~/.config/hypr/myColors.conf
+#+END_SRC
+
+** Default Programs
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+$terminal = kitty
+$fileManager = thunar
+$menu = wofi --show drun
+#+END_SRC
+
+** Environment Variables
+
+[[https://wiki.hyprland.org/Configuring/Environment-variables/][Hyprland Wiki - Environment Variables]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+env = XCURSOR_SIZE,24
+env = QT_QPA_PLATFORMTHEME,qt5ct # change to qt6ct if you have that
+#+END_SRC
+
+** Input
+
+[[https://wiki.hyprland.org/Configuring/Variables/#input][Hyprland Wiki - Input]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+input {
+    kb_layout = us
+    kb_variant =
+    kb_model =
+    kb_options =
+    kb_rules =
+
+    follow_mouse = 1
+
+    touchpad {
+        natural_scroll = false
+    }
+
+    sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
+}
+#+END_SRC
+
+** General
+
+[[https://wiki.hyprland.org/Configuring/Variables/#general][Hyprland Wiki - General]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+general {
+    gaps_in = 5
+    gaps_out = 20
+    border_size = 2
+    col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+    col.inactive_border = rgba(595959aa)
+
+    layout = dwindle
+
+    allow_tearing = false
+}
+#+END_SRC
+
+** Decoration
+
+[[https://wiki.hyprland.org/Configuring/Variables/#decoration][Hyprland Wiki - Decoration]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+decoration {
+    rounding = 10
+
+    blur {
+        enabled = true
+        size = 3
+        passes = 1
+
+        vibrancy = 0.1696
+    }
+
+    drop_shadow = true
+    shadow_range = 4
+    shadow_render_power = 3
+    col.shadow = rgba(1a1a1aee)
+}
+#+END_SRC
+
+** Animations
+
+[[https://wiki.hyprland.org/Configuring/Animations/][Hyprland Wiki - Animations]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+animations {
+    enabled = true
+
+    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+
+    animation = windows, 1, 7, myBezier
+    animation = windowsOut, 1, 7, default, popin 80%
+    animation = border, 1, 10, default
+    animation = borderangle, 1, 8, default
+    animation = fade, 1, 7, default
+    animation = workspaces, 1, 6, default
+}
+#+END_SRC
+
+** Layouts
+
+*** Dwindle
+
+[[https://wiki.hyprland.org/Configuring/Dwindle-Layout/][Hyprland Wiki - Dwindle Layout]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+dwindle {
+    pseudotile = true # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+    preserve_split = true # you probably want this
+}
+#+END_SRC
+
+*** Master
+
+[[https://wiki.hyprland.org/Configuring/Master-Layout/][Hyprland Wiki - Master Layout]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+master {
+    new_is_master = true
+}
+#+END_SRC
+
+** Gestures
+
+[[https://wiki.hyprland.org/Configuring/Variables/#gestures][Hyprland Wiki - Gestures]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+gestures {
+    workspace_swipe = false
+}
+#+END_SRC
+
+** Miscellaneous
+
+[[https://wiki.hyprland.org/Configuring/Variables/#misc][Hyprland Wiki - Miscellaneous]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+misc {
+    force_default_wallpaper = -1 # Set to 0 or 1 to disable the anime mascot wallpapers
+}
+#+END_SRC
+
+** Per-Device Input
+
+[[https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs][Hyprland Wiki - Per Device Input Configs]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+device {
+    # name = epic-mouse-v1
+    # sensitivity = -0.5
+}
+#+END_SRC
+
+** Window Rule
+
+[[https://wiki.hyprland.org/Configuring/Window-Rules/][Hyprland Wiki - Window Rules]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+# windowrule = float, ^(kitty)$
+# windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
+# windowrulev2 = suppressevent maximize, class:.* # You'll probably like this.
+#+END_SRC
+
+** Keybindings
+
+[[https://wiki.hyprland.org/Configuring/Binds/][Hyprland Wiki - Binds]]
+
+*** Modifier Key
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+$mainMod = SUPER
+#+END_SRC
+
+*** General
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, Return, exec, $terminal
+bind = $mainMod, C, killactive,
+bind = $mainMod, Q, exit,
+bind = $mainMod, E, exec, $fileManager
+bind = $mainMod, F, togglefloating,
+bind = $mainMod, R, exec, $menu
+# bind = $mainMod, P, pseudo, # dwindle
+# bind = $mainMod, J, togglesplit, # dwindle
+#+END_SRC
+
+*** Move Focus
+
+Move focus with mainMod + arrow keys
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, left, movefocus, l
+bind = $mainMod, right, movefocus, r
+bind = $mainMod, up, movefocus, u
+bind = $mainMod, down, movefocus, d
+#+END_SRC
+
+Move focus with mainMod + vim keys (hjkl)
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, H, movefocus, l
+bind = $mainMod, L, movefocus, r
+bind = $mainMod, K, movefocus, u
+bind = $mainMod, J, movefocus, d
+#+END_SRC
+
+*** Switch Workspaces
+
+Switch workspaces with mainMod + [0-9]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+bind = $mainMod, 8, workspace, 8
+bind = $mainMod, 9, workspace, 9
+bind = $mainMod, 0, workspace, 10
+#+END_SRC
+
+*** Move Window to Workspace
+
+Move active window to a workspace with mainMod + SHIFT + [0-9]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod SHIFT, 1, movetoworkspace, 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7
+bind = $mainMod SHIFT, 8, movetoworkspace, 8
+bind = $mainMod SHIFT, 9, movetoworkspace, 9
+bind = $mainMod SHIFT, 0, movetoworkspace, 10
+#+END_SRC
+
+*** Special Workspace
+
+**** Scratchpad
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, S, togglespecialworkspace, magic
+bind = $mainMod SHIFT, S, movetoworkspace, special:magic
+#+END_SRC
+
+*** Scroll Through Workspaces
+
+Scroll through existing workspaces with mainMod + scroll
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, mouse_down, workspace, e+1
+bind = $mainMod, mouse_up, workspace, e-1
+#+END_SRC
+
+*** Move/Resize Windows
+
+Move/resize windows with mainMod + LMB/RMB and dragging
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bindm = $mainMod, mouse:272, movewindow
+bindm = $mainMod, mouse:273, resizewindow
+#+END_SRC
