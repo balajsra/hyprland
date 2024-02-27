@@ -30,6 +30,7 @@
     - [[#special-workspace][Special Workspace]]
     - [[#scroll-through-workspaces][Scroll Through Workspaces]]
     - [[#moveresize-windows][Move/Resize Windows]]
+    - [[#application-specific][Application Specific]]
 
 * Welcome
 
@@ -64,6 +65,7 @@ Execute these apps on launch
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 # exec-once = waybar & hyprpaper & firefox
+exec-once = swaync
 #+END_SRC
 
 Source a file (multi-file configs)
@@ -347,4 +349,12 @@ Move/resize windows with mainMod + LMB/RMB and dragging
 #+BEGIN_SRC conf :tangle hyprland.conf
 bindm = $mainMod, mouse:272, movewindow
 bindm = $mainMod, mouse:273, resizewindow
+#+END_SRC
+
+*** Application Specific
+
+**** SwayNotificationCenter
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bindm = $mainMod SHIFT, N, exec, swaync-client -t -sw
 #+END_SRC
