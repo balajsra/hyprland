@@ -352,6 +352,15 @@ bindm = $mainMod, mouse:272, movewindow
 bindm = $mainMod, mouse:273, resizewindow
 #+END_SRC
 
+Move windows with mainMod + SHIFT + vim keys (h,j,k,l)
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod SHIFT, H, movewindow, l
+bind = $mainMod SHIFT, L, movewindow, r
+bind = $mainMod SHIFT, K, movewindow, u
+bind = $mainMod SHIFT, J, movewindow, d
+#+END_SRC
+
 *** Application Specific
 
 **** SwayNotificationCenter
