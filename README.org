@@ -1,0 +1,410 @@
+#+TITLE: Personal Hyprland Configuration
+#+AUTHOR: Sravan Balaji
+#+AUTO_TANGLE: t
+#+STARTUP: showeverything
+
+* Table of Contents :TOC_3:noexport:
+
+* Welcome
+
+My personal configuration of Hyprland, written as an [[https://orgmode.org][Org Mode]] document.
+
+Run the block below with ~C-c C-c~ to tangle code blocks to config file.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(org-mode-restart)
+(org-babel-tangle)
+#+END_SRC
+
+* Hyprland
+
+- [[https://wiki.hyprland.org/Configuring][Hyprland Wiki - Configuring]]
+
+** Monitors
+
+- [[https://wiki.hyprland.org/Configuring/Monitors][Hyprland Wiki - Configuring - Monitors]]
+  
+#+BEGIN_SRC conf :tangle hyprland.conf
+monitor=,preferred,auto,auto
+#+END_SRC
+
+** Programs
+
+- [[https://wiki.hyprland.org/Configuring/Keywords][Hyprland Wiki - Configuring - Keywords]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+$terminal = foot
+$fileManager = thunar
+$menu = rofi --show drun
+#+END_SRC
+
+** Autostart
+
+Autostart necessary processes (like notifications daemons, status bars, etc.)
+Or execute your favorite apps at launch like this:
+
+#+BEGIN_EXAMPLE conf
+exec-once = $terminal
+exec-once = nm-applet &
+exec-once = waybar & hyprpaper & firefox
+#+END_EXAMPLE
+
+If using =uwsm=, prefix application startup commands with =uwsm app --=:
+
+#+BEGIN_EXAMPLE conf
+exec-once = uwsm app -- mycommand --arg1 --arg2
+bind = SUPER, E, exec, uwsm app -- pcmanfm-qt.desktop
+#+END_EXAMPLE
+
+** Environment Variables
+
+- [[https://wiki.hyprland.org/Configuring/Environment-variables/][Hyprland Wiki - Configuring - Environment Variables]]
+
+=uwsm= users should avoid placing environment variables here. Instead, use =~/.config/uwsm/env= for theming, xcursor, nvidia and toolkit variables, and =~.config/uwsm/env-hyprland= for =HYPR*= and =AQ_*= variables. The format is =export KEY\=VAL=.
+
+#+BEGIN_EXAMPLE conf
+export XCURSOR_SIZE=24
+#+END_EXAMPLE
+
+See [[https://github.com/Vladimir-csp/uwsm?tab=readme-ov-file#4-environments-and-shell-profile][uwsm readme]] for additional information.
+
+** Permissions
+
+- [[https://wiki.hyprland.org/Configuring/Permissions/][Hyprland Wiki - Configuring - Permissions]]
+
+#+BEGIN_EXAMPLE conf
+ecosystem {
+  enforce_permissions = 1
+}
+
+permission = /usr/(bin|local/bin)/grim, screencopy, allow
+permission = /usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland, screencopy, allow
+#+END_EXAMPLE
+
+** Look and Feel
+
+- [[https://wiki.hyprland.org/Configuring/Variables/][Hyprland Wiki - Configuring - Variables]]
+
+*** General
+
+- [[https://wiki.hyprland.org/Configuring/Variables/#general][Hyprland Wiki - Configuring - Variables - General]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+general {
+    gaps_in = 5
+    gaps_out = 20
+
+    border_size = 2
+
+    # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
+    col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+    col.inactive_border = rgba(595959aa)
+
+    # Set to true enable resizing windows by clicking and dragging on borders and gaps
+    resize_on_border = false
+
+    # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
+    allow_tearing = false
+
+    layout = dwindle
+}
+#+END_SRC
+
+*** Decoration
+
+- [[https://wiki.hyprland.org/Configuring/Variables/#decoration][Hyprland Wiki - Configuring - Variables - Decoration]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+decoration {
+    rounding = 10
+    rounding_power = 2
+
+    # Change transparency of focused and unfocused windows
+    active_opacity = 1.0
+    inactive_opacity = 1.0
+
+    shadow {
+        enabled = true
+        range = 4
+        render_power = 3
+        color = rgba(1a1a1aee)
+    }
+
+    # https://wiki.hyprland.org/Configuring/Variables/#blur
+    blur {
+        enabled = true
+        size = 3
+        passes = 1
+
+        vibrancy = 0.1696
+    }
+}
+#+END_SRC
+
+*** Animations
+
+- [[https://wiki.hyprland.org/Configuring/Variables/#animations][Hyprland Wiki - Configuring - Variables - Animations]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+animations {
+    enabled = yes, please :)
+
+    # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
+
+    bezier = easeOutQuint,0.23,1,0.32,1
+    bezier = easeInOutCubic,0.65,0.05,0.36,1
+    bezier = linear,0,0,1,1
+    bezier = almostLinear,0.5,0.5,0.75,1.0
+    bezier = quick,0.15,0,0.1,1
+
+    animation = global, 1, 10, default
+    animation = border, 1, 5.39, easeOutQuint
+    animation = windows, 1, 4.79, easeOutQuint
+    animation = windowsIn, 1, 4.1, easeOutQuint, popin 87%
+    animation = windowsOut, 1, 1.49, linear, popin 87%
+    animation = fadeIn, 1, 1.73, almostLinear
+    animation = fadeOut, 1, 1.46, almostLinear
+    animation = fade, 1, 3.03, quick
+    animation = layers, 1, 3.81, easeOutQuint
+    animation = layersIn, 1, 4, easeOutQuint, fade
+    animation = layersOut, 1, 1.5, linear, fade
+    animation = fadeLayersIn, 1, 1.79, almostLinear
+    animation = fadeLayersOut, 1, 1.39, almostLinear
+    animation = workspaces, 1, 1.94, almostLinear, fade
+    animation = workspacesIn, 1, 1.21, almostLinear, fade
+    animation = workspacesOut, 1, 1.94, almostLinear, fade
+}
+#+END_SRC
+
+*** Dwindle Layout
+
+- [[https://wiki.hyprland.org/Configuring/Dwindle-Layout/][Hyprland Wiki - Configuring - Dwindle Layout]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+dwindle {
+    pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+    preserve_split = true # You probably want this
+}
+#+END_SRC
+
+*** Master Layout
+
+- [[https://wiki.hyprland.org/Configuring/Master-Layout/][Hyprland Wiki - Configuring - Master Layout]]
+#+BEGIN_SRC conf :tangle hyprland.conf
+master {
+    new_status = master
+}
+#+END_SRC
+
+*** Miscellaneous
+
+- [[https://wiki.hyprland.org/Configuring/Variables/#misc][Hyprland Wiki - Configuring - Variables - Misc]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+misc {
+    force_default_wallpaper = -1 # Set to 0 or 1 to disable the anime mascot wallpapers
+    disable_hyprland_logo = false # If true disables the random hyprland logo / anime girl background. :(
+}
+#+END_SRC
+
+** Input
+
+*** Keyboard and Mouse
+
+- [[https://wiki.hyprland.org/Configuring/Variables/#input][Hyprland Wiki - Configuring - Variables - Input]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+input {
+    kb_layout = us
+    kb_variant =
+    kb_model =
+    kb_options =
+    kb_rules =
+
+    follow_mouse = 1
+
+    sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
+
+    touchpad {
+        natural_scroll = false
+    }
+}
+#+END_SRC
+
+*** Gestures
+
+- [[https://wiki.hyprland.org/Configuring/Variables/#gestures][Hyprland Wiki - Configuring - Variables - Gestures]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+gestures {
+    workspace_swipe = false
+}
+#+END_SRC
+
+*** Device
+
+- [[https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs][Hyprland Wiki - Configuring - Per Device Input Configs]]
+
+#+BEGIN_EXAMPLE conf
+device {
+    name = epic-mouse-v1
+    sensitivity = -0.5
+}
+#+END_EXAMPLE
+
+** Keybindings
+
+- [[https://wiki.hyprland.org/Configuring/Keywords/][Hyprland Wiki - Configuring - Keywords]]
+- [[https://wiki.hyprland.org/Configuring/Binds/][Hyprland Wiki - Configuring - Binds]]
+
+*** Mod Key
+
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+$mainMod = SUPER # Sets "Windows" key as main modifier
+#+END_SRC
+
+*** Launch Programs
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, Q, exec, $terminal
+bind = $mainMod, C, killactive,
+bind = $mainMod, M, exit,
+bind = $mainMod, E, exec, $fileManager
+bind = $mainMod, V, togglefloating,
+bind = $mainMod, R, exec, $menu
+bind = $mainMod, P, pseudo, # dwindle
+bind = $mainMod, J, togglesplit, # dwindle
+#+END_SRC
+
+*** Move Focus
+
+Move focus with mainMod + arrow keys
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, left, movefocus, l
+bind = $mainMod, right, movefocus, r
+bind = $mainMod, up, movefocus, u
+bind = $mainMod, down, movefocus, d
+#+END_SRC
+
+*** Switch Workspaces
+
+Switch workspaces with mainMod + [0-9]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+bind = $mainMod, 8, workspace, 8
+bind = $mainMod, 9, workspace, 9
+bind = $mainMod, 0, workspace, 10
+#+END_SRC
+
+*** Move Windows
+
+Move active window to a workspace with mainMod + SHIFT + [0-9]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod SHIFT, 1, movetoworkspace, 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7
+bind = $mainMod SHIFT, 8, movetoworkspace, 8
+bind = $mainMod SHIFT, 9, movetoworkspace, 9
+bind = $mainMod SHIFT, 0, movetoworkspace, 10
+#+END_SRC
+
+*** Special Workspace
+
+Example special workspace (scratchpad)
+
+#+BEGIN_EXAMPLE conf
+bind = $mainMod, S, togglespecialworkspace, magic
+bind = $mainMod SHIFT, S, movetoworkspace, special:magic
+#+END_EXAMPLE
+
+*** Workspace Scroll
+
+Scroll through existing workspaces with mainMod + scroll
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, mouse_down, workspace, e+1
+bind = $mainMod, mouse_up, workspace, e-1
+#+END_SRC
+
+*** Move / Resize Windows
+
+Move/resize windows with mainMod + LMB/RMB and dragging
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bindm = $mainMod, mouse:272, movewindow
+bindm = $mainMod, mouse:273, resizewindow
+#+END_SRC
+
+*** Laptop Multimedia Keys
+
+Laptop multimedia keys for volume and LCD brightness
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
+bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 10%-
+#+END_SRC
+
+*** Media Controls
+
+Requires =playerctl=
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bindl = , XF86AudioNext, exec, playerctl next
+bindl = , XF86AudioPause, exec, playerctl play-pause
+bindl = , XF86AudioPlay, exec, playerctl play-pause
+bindl = , XF86AudioPrev, exec, playerctl previous
+#+END_SRC
+
+** Windows and Workspaces
+
+- [[https://wiki.hyprland.org/Configuring/Window-Rules/][Hyprland Wiki - Configuring - Window Rules]]
+- [[https://wiki.hyprland.org/Configuring/Workspace-Rules/][Hyprland Wiki - Configuring - Workspace Rules]]
+
+*** Window Rules
+
+Example windowrule
+
+#+BEGIN_EXAMPLE conf
+windowrule = float,class:^(kitty)$,title:^(kitty)$
+#+END_EXAMPLE
+
+Ignore maximize requests from apps. You'll probably like this.
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+windowrule = suppressevent maximize, class:.*
+#+END_SRC
+
+Fix some dragging issues with XWayland
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+windowrule = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+#+END_SRC
+
+*** Smart Gaps
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+workspace = w[tv1], gapsout:0, gapsin:0
+workspace = f[1], gapsout:0, gapsin:0
+windowrule = bordersize 0, floating:0, onworkspace:w[tv1]
+windowrule = rounding 0, floating:0, onworkspace:w[tv1]
+windowrule = bordersize 0, floating:0, onworkspace:f[1]
+windowrule = rounding 0, floating:0, onworkspace:f[1]
+#+END_SRC
