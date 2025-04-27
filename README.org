@@ -294,6 +294,10 @@ device {
 - [[https://wiki.hyprland.org/Configuring/Keywords/][Hyprland Wiki - Configuring - Keywords]]
 - [[https://wiki.hyprland.org/Configuring/Binds/][Hyprland Wiki - Configuring - Binds]]
 
+#+BEGIN_EXAMPLE
+bind = MODS, key, dispatcher, params
+#+END_EXAMPLE
+
 *** Mod Key
 
 #+BEGIN_SRC conf :tangle hyprland.conf
@@ -303,25 +307,25 @@ $mainMod = SUPER # Sets "Windows" key as main modifier
 *** Session Control
 
 #+BEGIN_SRC conf :tangle hyprland.conf
-bind = $mainMod SHIFT, Q, exit,
+bind = $mainMod SHIFT, Q, exec, loginctl terminate-user ""
 #+END_SRC
 
 *** Launch Programs
 
 #+BEGIN_SRC conf :tangle hyprland.conf
-bind = $mainMod SHIFT, Return, exec, $terminal
-bind = $mainMod, E, exec, $fileManager
-bind = $mainMod, P, exec, $menu
+bind = $mainMod SHIFT, Return, exec, uwsm app -- $terminal
+bind = $mainMod, E, exec, uwsm app -- $fileManager
+bind = $mainMod, P, exec, uwsm app -- $menu
 #+END_SRC
 
 *** Control Windows / Layout
 
 #+BEGIN_SRC conf :tangle hyprland.conf
-bind = $mainMod SHIFT, C, killactive,
+bind = $mainMod SHIFT, C, killactive
 bind = $mainMod SHIFT, F, fullscreen
-bind = $mainMod, F, togglefloating,
-bind = $mainMod, D, pseudo, # dwindle
-bind = $mainMod, S, togglesplit, # dwindle
+bind = $mainMod, F, togglefloating
+bind = $mainMod, D, pseudo # dwindle
+bind = $mainMod, S, togglesplit # dwindle
 #+END_SRC
 
 *** Move Focus
@@ -401,12 +405,12 @@ bindm = $mainMod, mouse:273, resizewindow
 Laptop multimedia keys for volume and LCD brightness
 
 #+BEGIN_SRC conf :tangle hyprland.conf
-bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
-bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
-bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
-bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 10%-
+bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindel = , XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindel = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindel = , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindel = , XF86MonBrightnessUp, exec, brightnessctl s 10%+
+bindel = , XF86MonBrightnessDown, exec, brightnessctl s 10%-
 #+END_SRC
 
 *** Media Controls
