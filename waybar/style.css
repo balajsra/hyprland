@@ -88,14 +88,9 @@ box#dunst {
 #workspaces button.urgent {
     color: #ff5555;
 }
-#window.title {
+#window {
     background: transparent;
     color: #f8f8f2;
-    padding: 0px 10px;
-}
-#window.layout {
-    background: transparent;
-    color: #50fa7b;
     padding: 0px 10px;
 }
 
