@@ -13,9 +13,9 @@
     "reload_style_on_change": true,
     "modules-left": [
         "group/power-menu",
-        "dwl/tags",
-        "dwl/window#title",
-        "dwl/window#layout",
+        "hyprland/workspaces",
+        "hyprland/window",
+        "hyprland/submap",
     ],
     "modules-center": [
         "tray",
@@ -114,7 +114,7 @@
     },
 
     "custom/dunst-status": {
-        "exec": "~/.config/dwl/waybar/scripts/dunst.sh",
+        "exec": "~/.config/hypr/waybar/scripts/dunst.sh",
         "restart-interval": 1,
         "on-click": "~/.scripts/dunst.sh --dnd",
         "on-click-right": "~/.scripts/dunst.sh --rofi",
@@ -138,26 +138,6 @@
         "on-click": "~/.scripts/dunst.sh --history-clear",
         "tooltip": true,
         "tooltip-format": "Clear Notification History",
-    },
-
-    "dwl/tags": {
-        "num-tags": 9,
-        "tag-labels": [ "󰻧 ₁", "󰍩 ₂", "󰠮 ₃", " ₄", "󰖟 ₅", " ₆", "󰊢 ₇", "󰊖 ₈", " ₉" ],
-        "disable-click": false
-    },
-    "dwl/window#title": {
-        "format": "{title}",
-        "all-outputs": false,
-        "icon": true,
-        "icon-size": 21,
-        "tooltip": true,
-        "max-length": 30,
-    },
-    "dwl/window#layout": {
-        "format": "{layout}",
-        "tooltip": false,
-        "all-outputs": false,
-        "icon": false,
     },
 
     "disk": {
@@ -189,7 +169,7 @@
     },
 
     "custom/media-playing-source": {
-        "exec": "~/.config/dwl/waybar/scripts/get-media-playing.sh",
+        "exec": "~/.config/hypr/waybar/scripts/get-media-playing.sh",
         "return-type": "json",
         "restart-interval": 1,
         "on-click": "~/.scripts/playerctl.sh --change",
@@ -201,7 +181,7 @@
         "tooltip": false,
     },
     "custom/media-playing-play-pause": {
-        "exec": "~/.config/dwl/waybar/scripts/get-media-status-icon.sh",
+        "exec": "~/.config/hypr/waybar/scripts/get-media-status-icon.sh",
         "restart-interval": 1,
         "on-click": "~/.scripts/playerctl.sh --play-pause",
         "tooltip": false,
@@ -273,7 +253,7 @@
     },
 
     "custom/system76-power": {
-        "exec": "~/.config/dwl/waybar/scripts/system76-power.sh",
+        "exec": "~/.config/hypr/waybar/scripts/system76-power.sh",
         "return-type": "json",
         "restart-interval": 60,
         "on-click-right": "~/.scripts/cpu-gpu.sh --rofi",
