@@ -77,12 +77,12 @@ Run the block below with ~C-c C-c~ to tangle code blocks to config file.
 ** Monitors
 
 - [[https://wiki.hyprland.org/Configuring/Monitors][Hyprland Wiki - Configuring - Monitors]]
-  
+
+#+BEGIN_EXAMPLE conf
+monitor = name, resolution, position, scale
+#+END_EXAMPLE
+
 #+BEGIN_SRC conf :tangle hyprland.conf
-monitor = desc:LG Display 0x0625, disable
-monitor = desc:LG Electronics LG ULTRAGEAR 305MXUN80518, 2560x1440@144, 0x0, 1
-monitor = desc:LG Electronics LG ULTRAGEAR 112NTTQC0153, 2560x1440@165, 2560x0, 1
-monitor = desc:LG Electronics LG ULTRAGEAR 111NTUWM4574, 2560x1440@165, 5120x0, 1
 monitor = , preferred, auto, 1
 #+END_SRC
 
