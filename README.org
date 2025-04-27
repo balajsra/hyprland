@@ -7,7 +7,7 @@
 - [[#welcome][Welcome]]
 - [[#hyprland][Hyprland]]
   - [[#monitors][Monitors]]
-  - [[#programs][Programs]]
+  - [[#variables][Variables]]
   - [[#autostart][Autostart]]
   - [[#environment-variables][Environment Variables]]
   - [[#permissions][Permissions]]
@@ -66,14 +66,14 @@ monitor = desc:LG Electronics LG ULTRAGEAR 111NTUWM4574, 2560x1440@165, 5120x0, 
 monitor = , preferred, auto, 1
 #+END_SRC
 
-** Programs
+** Variables
 
 - [[https://wiki.hyprland.org/Configuring/Keywords][Hyprland Wiki - Configuring - Keywords]]
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 $terminal = foot
 $fileManager = thunar
-$menu = rofi -show combi
+$menu = rofi -show combi -run-command "uwsm app -- {cmd}"
 #+END_SRC
 
 ** Autostart
