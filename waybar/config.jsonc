@@ -177,6 +177,9 @@
         "icon-size": 21,
     },
     "hyprland/submap": {
+        "format": "󰘳 {}",
+        "default-submap": "",
+        "always-on": false,
     },
 
     "idle_inhibitor": {

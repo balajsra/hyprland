@@ -93,6 +93,11 @@ box#dunst {
     color: #f8f8f2;
     padding: 0px 10px;
 }
+#submap {
+    background: transparent;
+    color: #50fa7b;
+    padding: 0px 10px;
+}
 
 #idle_inhibitor.activated {
     background: transparent;

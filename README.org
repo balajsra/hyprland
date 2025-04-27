@@ -835,6 +835,9 @@ fi
         "icon-size": 21,
     },
     "hyprland/submap": {
+        "format": "󰘳 {}",
+        "default-submap": "",
+        "always-on": false,
     },
 #+END_SRC
 
@@ -861,6 +864,11 @@ fi
 #window {
     background: transparent;
     color: #f8f8f2;
+    padding: 0px 10px;
+}
+#submap {
+    background: transparent;
+    color: #50fa7b;
     padding: 0px 10px;
 }
 #+END_SRC
