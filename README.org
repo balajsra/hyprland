@@ -4,6 +4,38 @@
 #+STARTUP: showeverything
 
 * Table of Contents :TOC_3:noexport:
+- [[#welcome][Welcome]]
+- [[#hyprland][Hyprland]]
+  - [[#monitors][Monitors]]
+  - [[#programs][Programs]]
+  - [[#autostart][Autostart]]
+  - [[#environment-variables][Environment Variables]]
+  - [[#permissions][Permissions]]
+  - [[#look-and-feel][Look and Feel]]
+    - [[#general][General]]
+    - [[#decoration][Decoration]]
+    - [[#animations][Animations]]
+    - [[#dwindle-layout][Dwindle Layout]]
+    - [[#master-layout][Master Layout]]
+    - [[#miscellaneous][Miscellaneous]]
+  - [[#input][Input]]
+    - [[#keyboard-and-mouse][Keyboard and Mouse]]
+    - [[#gestures][Gestures]]
+    - [[#device][Device]]
+  - [[#keybindings][Keybindings]]
+    - [[#mod-key][Mod Key]]
+    - [[#launch-programs][Launch Programs]]
+    - [[#move-focus][Move Focus]]
+    - [[#switch-workspaces][Switch Workspaces]]
+    - [[#move-windows][Move Windows]]
+    - [[#special-workspace][Special Workspace]]
+    - [[#workspace-scroll][Workspace Scroll]]
+    - [[#move--resize-windows][Move / Resize Windows]]
+    - [[#laptop-multimedia-keys][Laptop Multimedia Keys]]
+    - [[#media-controls][Media Controls]]
+  - [[#windows-and-workspaces][Windows and Workspaces]]
+    - [[#window-rules][Window Rules]]
+    - [[#smart-gaps][Smart Gaps]]
 
 * Welcome
 
@@ -184,7 +216,7 @@ animations {
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 dwindle {
-    pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+    pseudotile = true # Master switch for pseudotiling. See keybinding section to enable
     preserve_split = true # You probably want this
 }
 #+END_SRC
@@ -192,6 +224,7 @@ dwindle {
 *** Master Layout
 
 - [[https://wiki.hyprland.org/Configuring/Master-Layout/][Hyprland Wiki - Configuring - Master Layout]]
+
 #+BEGIN_SRC conf :tangle hyprland.conf
 master {
     new_status = master
@@ -228,7 +261,7 @@ input {
     sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
 
     touchpad {
-        natural_scroll = false
+        natural_scroll = true
     }
 }
 #+END_SRC
@@ -239,7 +272,7 @@ input {
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 gestures {
-    workspace_swipe = false
+    workspace_swipe = true
 }
 #+END_SRC
 
