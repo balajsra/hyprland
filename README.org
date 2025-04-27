@@ -48,6 +48,12 @@
     - [[#render][Render]]
   - [[#ecosystem][Ecosystem]]
 - [[#xdg-desktop-portal-hyprland][xdg-desktop-portal-hyprland]]
+  - [[#screencopy][Screencopy]]
+- [[#hypridle][Hypridle]]
+  - [[#general-1][General]]
+  - [[#listeners][Listeners]]
+- [[#hyprlock][Hyprlock]]
+  - [[#general-2][General]]
 - [[#waybar][Waybar]]
   - [[#start-configuration][Start Configuration]]
   - [[#bar][Bar]]
@@ -133,8 +139,6 @@ exec-once = uwsm app -- waybar --config $HOME/.config/hypr/waybar/config.jsonc -
 *** Background Processes
 
 #+BEGIN_SRC conf :tangle hyprland.conf
-exec-once = uwsm app -- swayidle &
-exec-once = uwsm app -- /usr/libexec/polkit-gnome-authentication-agent-1 &
 exec-once = uwsm app -- kdeconnectd --replace &
 exec-once = uwsm app -- $HOME/.scripts/dunst.sh --on &
 exec-once = uwsm app -- wl-paste --type text --watch cliphist store &
@@ -707,10 +711,70 @@ ecosystem {
 
 - [[https://wiki.hyprland.org/Hypr-Ecosystem/xdg-desktop-portal-hyprland/#configuration][Hyprland Wiki - Hypr Ecosystem - xdg-desktop-portal-hyprland - Configuration]]
 
+** Screencopy
+
 #+BEGIN_SRC conf :tangle xdph.conf
 screencopy {
     max_fps = 0
     allow_token_by_default = false
+}
+#+END_SRC
+
+* Hypridle
+
+- [[https://wiki.hyprland.org/Hypr-Ecosystem/hypridle/][Hyprland Wiki - Hypr Ecosystem - hypridle]]
+
+** General
+
+#+BEGIN_SRC conf :tangle hypridle.conf
+general {
+    lock_cmd = pidof hyprlock || hyprlock      # avoid starting multiple hyprlock instances
+    before_sleep_cmd = loginctl lock-session   # lock before suspend
+    after_sleep_cmd = hyprctl dispatch dpms on # to avoid having to press a key to turn on the display
+    ignore_dbus_inhibit = false
+    ignore_systemd_inhibit = false
+    inhibit_sleep = 2
+}
+#+END_SRC
+
+** Listeners
+
+Lock screen after 10 minutes
+
+#+BEGIN_SRC conf :tangle hypridle.conf
+listener {
+    timeout = 600
+    on-timeout = loginctl lock-session
+}
+#+END_SRC
+
+Sleep after 30 minutes
+
+#+BEGIN_SRC conf :tangle hypridle.conf
+listener {
+    timeout = 1800
+    on-timeout = systemctl suspend
+}
+#+END_SRC
+
+* Hyprlock
+
+- [[https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/][Hyprland Wiki - Hypr Ecosystem - hyprlock]]
+
+** General
+
+- [[https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/#general][Hyprland Wiki - Hypr Ecosystem - hyprlock - General]]
+
+#+BEGIN_SRC conf :tangle hyprlock.conf
+general {
+    hide_cursor = true
+    grace = 0
+    ignore_empty_input = false
+    immediate_render = false
+    text_trim = true
+    fractional_scaling = 2
+    screencopy_mode = 0
+    fail_timeout = 2000
 }
 #+END_SRC
 
