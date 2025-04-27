@@ -27,6 +27,7 @@
     - [[#gestures][Gestures]]
     - [[#device][Device]]
   - [[#keybindings][Keybindings]]
+    - [[#binds][Binds]]
     - [[#mod-key][Mod Key]]
     - [[#session-control][Session Control]]
     - [[#launch-programs][Launch Programs]]
@@ -41,6 +42,11 @@
   - [[#windows-and-workspaces][Windows and Workspaces]]
     - [[#window-rules][Window Rules]]
     - [[#smart-gaps][Smart Gaps]]
+  - [[#graphics][Graphics]]
+    - [[#xwayland][XWayland]]
+    - [[#opengl][OpenGL]]
+    - [[#render][Render]]
+  - [[#ecosystem][Ecosystem]]
 - [[#waybar][Waybar]]
   - [[#start-configuration][Start Configuration]]
   - [[#bar][Bar]]
@@ -172,7 +178,7 @@ See [[https://github.com/Vladimir-csp/uwsm?tab=readme-ov-file#4-environments-and
 
 #+BEGIN_EXAMPLE conf
 ecosystem {
-  enforce_permissions = 1
+    enforce_permissions = true
 }
 
 permission = /usr/(bin|local/bin)/grim, screencopy, allow
@@ -342,8 +348,13 @@ master {
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 misc {
-    force_default_wallpaper = -1 # Set to 0 or 1 to disable the anime mascot wallpapers
     disable_hyprland_logo = false # If true disables the random hyprland logo / anime girl background. :(
+    disable_splash_rendering = false
+    force_default_wallpaper = -1 # Set to 0 or 1 to disable the anime mascot wallpapers
+    vfr = true
+    vrr = 3
+    mouse_move_enables_dpms = true
+    key_press_enables_dpms = true
 }
 #+END_SRC
 
@@ -361,12 +372,19 @@ input {
     kb_options =
     kb_rules =
 
+    numlock_by_default = true
+
+    accel_profile = flat
+    sensitivity = 0.0
     follow_mouse = 1
 
-    sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
+    scroll_method = 2fg
 
     touchpad {
+        disable_while_typing = false
         natural_scroll = true
+        scroll_factor = 0.5
+        tap-to-click = true
     }
 }
 #+END_SRC
@@ -378,6 +396,8 @@ input {
 #+BEGIN_SRC conf :tangle hyprland.conf
 gestures {
     workspace_swipe = true
+    workspace_swipe_fingers = 3
+    workspace_swipe_min_fingers = true
 }
 #+END_SRC
 
@@ -400,6 +420,34 @@ device {
 #+BEGIN_EXAMPLE
 bind = MODS, key, dispatcher, params
 #+END_EXAMPLE
+
+l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.
+r -> release, will trigger on release of a key.
+c -> click, will trigger on release of a key or button as long as the mouse cursor stays inside binds:drag_threshold.
+g -> drag, will trigger on release of a key or button as long as the mouse cursor moves outside binds:drag_threshold.
+o -> longPress, will trigger on long press of a key.
+e -> repeat, will repeat when held.
+n -> non-consuming, key/mouse events will be passed to the active window in addition to triggering the dispatcher.
+m -> mouse, see below.
+t -> transparent, cannot be shadowed by other binds.
+i -> ignore mods, will ignore modifiers.
+s -> separate, will arbitrarily combine keys between each mod/key, see [Keysym combos](#keysym-combos) above.
+d -> has description, will allow you to write a description for your bind.
+p -> bypasses the app's requests to inhibit keybinds.
+
+*** Binds
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+binds {
+    pass_mouse_when_bound = false
+    workspace_back_and_forth = false
+    allow_workspace_cycles = false
+    workspace_center_on = 1
+    focus_preferred_method = 0
+    movefocus_cycles_fullscreen = false
+    window_direction_monitor_fallback = true
+}
+#+END_SRC
 
 *** Mod Key
 
@@ -601,6 +649,58 @@ windowrule = rounding 0, floating:0, onworkspace:w[tv1]
 windowrule = bordersize 0, floating:0, onworkspace:f[1]
 windowrule = rounding 0, floating:0, onworkspace:f[1]
 #+END_EXAMPLE
+
+** Graphics
+
+*** XWayland
+
+- [[https://wiki.hyprland.org/Configuring/Variables/#xwayland][Hyprland Wiki - Configuring - Variables - XWayland]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+xwayland {
+    enabled = true
+    use_nearest_neighbor = true
+    force_zero_scaling = false
+    create_abstract_socket = false
+}
+#+END_SRC
+
+*** OpenGL
+
+- [[https://wiki.hyprland.org/Configuring/Variables/#opengl][Hyprland Wiki - Configuring - Variables - OpenGL]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+opengl {
+    nvidia_anti_flicker = true
+}
+#+END_SRC
+
+*** Render
+- [[https://wiki.hyprland.org/Configuring/Variables/#render][Hyprland Wiki - Configuring - Variables - Render]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+render {
+    explicit_sync = 2
+    explicit_sync_kms = 2
+    direct_scanout = 2
+    expand_undersized_textures = true
+    xp_mode = false
+    ctm_animation = 2
+    cm_fs_passthrough = 2
+    cm_enabled = true
+}
+#+END_SRC
+
+** Ecosystem
+
+- [[https://wiki.hyprland.org/Configuring/Variables/#ecosystem][Hyprland Wiki - Configuring - Variables - Ecosystem]]
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+ecosystem {
+    no_update_news = true
+    no_donation_nag = true
+}
+#+END_SRC
 
 * Waybar
 
