@@ -39,7 +39,6 @@
     - [[#window-rules][Window Rules]]
     - [[#smart-gaps][Smart Gaps]]
 - [[#waybar][Waybar]]
-  - [[#launch-script][Launch Script]]
   - [[#start-configuration][Start Configuration]]
   - [[#bar][Bar]]
     - [[#configuration][Configuration]]
@@ -114,6 +113,10 @@ If using =uwsm=, prefix application startup commands with =uwsm app --=:
 exec-once = uwsm app -- mycommand --arg1 --arg2
 bind = SUPER, E, exec, uwsm app -- pcmanfm-qt.desktop
 #+END_EXAMPLE
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+exec-once = uwsm app -- waybar --config $HOME/.config/hypr/waybar/config.jsonc --style $HOME/.config/dwl/waybar/style.css
+#+END_SRC
 
 ** Environment Variables
 
@@ -482,25 +485,6 @@ windowrule = rounding 0, floating:0, onworkspace:f[1]
 #+END_SRC
 
 * Waybar
-
-** Launch Script
-
-#+BEGIN_SRC shell :shebang #!/usr/bin/env bash :tangle waybar/launch.sh
-killall waybar || true
-
-until /usr/bin/waybar \
-    --config $HOME/.config/dwl/waybar/config.jsonc \
-    --style $HOME/.config/dwl/waybar/style.css;
-do
-    if [ $? -ne 143 ]; then
-        echo "Dwl Waybar stopped with exit code $?. Respawning..." >&2;
-        sleep 1;
-    else
-        echo "Dwl Waybar manually killed with SIGTERM";
-        break;
-    fi
-done
-#+END_SRC
 
 ** Start Configuration
 
