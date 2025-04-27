@@ -1,4 +1,4 @@
-#+TITLE: Personal Hyprland Configuration
+#+TITLE: Personal Hyprland Configuration with Waybar
 #+AUTHOR: Sravan Balaji
 #+AUTO_TANGLE: t
 #+STARTUP: showeverything
@@ -38,6 +38,27 @@
   - [[#windows-and-workspaces][Windows and Workspaces]]
     - [[#window-rules][Window Rules]]
     - [[#smart-gaps][Smart Gaps]]
+- [[#waybar][Waybar]]
+  - [[#launch-script][Launch Script]]
+  - [[#start-configuration][Start Configuration]]
+  - [[#bar][Bar]]
+    - [[#configuration][Configuration]]
+    - [[#styling][Styling]]
+  - [[#modules][Modules]]
+    - [[#battery][Battery]]
+    - [[#cpu][CPU]]
+    - [[#clock][Clock]]
+    - [[#dunst][Dunst]]
+    - [[#dwl][DWL]]
+    - [[#disk][Disk]]
+    - [[#idle-inhibitor][Idle Inhibitor]]
+    - [[#memory][Memory]]
+    - [[#playerctl][Playerctl]]
+    - [[#power-menu][Power Menu]]
+    - [[#pulseaudio][Pulseaudio]]
+    - [[#system76-power][System76 Power]]
+    - [[#tray][Tray]]
+  - [[#end-configuration][End Configuration]]
 
 * Welcome
 
@@ -458,4 +479,773 @@ windowrule = bordersize 0, floating:0, onworkspace:w[tv1]
 windowrule = rounding 0, floating:0, onworkspace:w[tv1]
 windowrule = bordersize 0, floating:0, onworkspace:f[1]
 windowrule = rounding 0, floating:0, onworkspace:f[1]
+#+END_SRC
+
+* Waybar
+
+** Launch Script
+
+#+BEGIN_SRC shell :shebang #!/usr/bin/env bash :tangle waybar/launch.sh
+killall waybar || true
+
+until /usr/bin/waybar \
+    --config $HOME/.config/dwl/waybar/config.jsonc \
+    --style $HOME/.config/dwl/waybar/style.css;
+do
+    if [ $? -ne 143 ]; then
+        echo "Dwl Waybar stopped with exit code $?. Respawning..." >&2;
+        sleep 1;
+    else
+        echo "Dwl Waybar manually killed with SIGTERM";
+        break;
+    fi
+done
+#+END_SRC
+
+** Start Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+// -*- mode: jsonc -*-
+{
+#+END_SRC
+
+** Bar
+
+*** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "layer": "top", // Waybar at top layer
+    // "output": "",
+    "position": "top", // Waybar position (top|bottom|left|right)
+    // "height": 25, // Waybar height (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    "spacing": 4, // Gaps between modules (4px)
+    "mode": "dock",
+    "start_hidden": false,
+    "fixed-center": true,
+    "reload_style_on_change": true,
+    "modules-left": [
+        "group/power-menu",
+        "dwl/tags",
+        "dwl/window#title",
+        "dwl/window#layout",
+    ],
+    "modules-center": [
+        "tray",
+    ],
+    "modules-right": [
+        "group/media-playing",
+        "pulseaudio",
+        "idle_inhibitor",
+        "custom/system76-power",
+        "cpu",
+        "memory",
+        "disk",
+        "battery",
+        "clock",
+        "group/dunst",
+    ],
+    "group/power-menu": {
+        "orientation": "inherit",
+        "modules": [
+            "custom/power-menu-launcher",
+            "custom/power-menu-shutdown",
+            "custom/power-menu-reboot",
+            "custom/power-menu-sleep",
+            "custom/power-menu-lock",
+            "custom/power-menu-logout",
+        ],
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": true,
+            "click-to-reveal": false,
+        },
+    },
+    "group/media-playing": {
+        "orientation": "inherit",
+        "modules": [
+            "custom/media-playing-source",
+            "custom/media-playing-prev",
+            "custom/media-playing-play-pause",
+            "custom/media-playing-next",
+        ],
+    },
+    "group/dunst": {
+        "orientation": "inherit",
+        "modules": [
+            "custom/dunst-status",
+            "custom/dunst-history-view",
+            "custom/dunst-clear",
+            "custom/dunst-history-clear",
+        ],
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": true,
+            "click-to-reveal": false,
+        },
+    },
+#+END_SRC
+
+*** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+window#waybar {
+    background: transparent;
+}
+
+#window {
+    padding: 0px 0px;
+    color: transparent;
+    background: transparent;
+}
+
+widget {
+    background: #282a36;
+    border-radius: 25px;
+}
+
+label.module {
+    padding: 0px 10px;
+}
+
+button {
+    border-radius: 0px;
+    padding: 0px 0px;
+}
+
+.module,button {
+    font-size: 15px;
+    font-family: Ubuntu Nerd Font;
+}
+#+END_SRC
+
+** Modules
+
+*** Battery
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "battery": {
+        "interval": 60,
+        "format": "{icon} {capacity}%",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip": true,
+        "tooltip-format": "󱧥\t{timeTo}\n󱐋\t{power} W\n󱠴\t{cycles}\n󱈏\t{health}%",
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#battery {
+    background: transparent;
+    color: #ff79c6;
+}
+#+END_SRC
+
+*** CPU
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "cpu": {
+        "interval": 5,
+        "format": " {usage}%",
+        "tooltip": true,
+        "on-click-right": "foot btop",
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#cpu {
+    background: transparent;
+    color: #ffb86c;
+}
+#+END_SRC
+
+*** Clock
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "clock": {
+        "interval": 60,
+        "format": "󰥔 {:%I:%M %p}",
+        "tooltip": true,
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "left",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#50fa7b'><b>{}</b></span>",
+                "days":       "<span color='#f8f8f2'><b>{}</b></span>",
+                "weeks":      "<span color='#8be9fd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#f1fa8c'><b>{}</b></span>",
+                "today":      "<span color='#bd93f9'><b><u>{}</u></b></span>"
+            },
+        },
+        "actions": {
+            "on-click": "mode",
+            "on-click-right": "shift_reset",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down",
+        },
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#clock {
+    background: transparent;
+    color: #bd93f9;
+}
+#+END_SRC
+
+*** Dunst
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "custom/dunst-status": {
+        "exec": "~/.config/dwl/waybar/scripts/dunst.sh",
+        "restart-interval": 1,
+        "on-click": "~/.scripts/dunst.sh --dnd",
+        "on-click-right": "~/.scripts/dunst.sh --rofi",
+        "tooltip": true,
+        "tooltip-format": "Toggle Do Not Disturb",
+    },
+    "custom/dunst-clear": {
+        "format": "",
+        "on-click": "~/.scripts/dunst.sh --close-all",
+        "tooltip": true,
+        "tooltip-format": "Close Open Notifications",
+    },
+    "custom/dunst-history-view": {
+        "format": "󰋚",
+        "on-click": "~/.scripts/dunst.sh --history",
+        "tooltip": true,
+        "tooltip-format": "View Notification History",
+    },
+    "custom/dunst-history-clear": {
+        "format": "󰎟",
+        "on-click": "~/.scripts/dunst.sh --history-clear",
+        "tooltip": true,
+        "tooltip-format": "Clear Notification History",
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+box#dunst {
+    padding: 0px 10px;
+}
+#custom-dunst-status {
+    background: transparent;
+    color: #50fa7b;
+    padding: 0px 5px;
+}
+#custom-dunst-clear {
+    background: transparent;
+    color: #50fa7b;
+    padding: 0px 5px;
+}
+#custom-dunst-history-view {
+    background: transparent;
+    color: #50fa7b;
+    padding: 0px 5px;
+}
+#custom-dunst-history-clear {
+    background: transparent;
+    color: #50fa7b;
+    padding: 0px 5px;
+}
+#+END_SRC
+
+**** Script
+
+#+BEGIN_SRC shell :shebang #!/usr/bin/env bash :tangle waybar/scripts/dunst.sh
+isPaused=$(dunstctl is-paused)
+notificationCount=$(dunstctl count history)
+
+if [[ "$isPaused" == "true" ]]; then
+    echo "󰂛 $notificationCount"
+else
+    echo "󰂚 $notificationCount"
+fi
+#+END_SRC
+
+*** DWL
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "dwl/tags": {
+        "num-tags": 9,
+        "tag-labels": [ "󰻧 ₁", "󰍩 ₂", "󰠮 ₃", " ₄", "󰖟 ₅", " ₆", "󰊢 ₇", "󰊖 ₈", " ₉" ],
+        "disable-click": false
+    },
+    "dwl/window#title": {
+        "format": "{title}",
+        "all-outputs": false,
+        "icon": true,
+        "icon-size": 21,
+        "tooltip": true,
+        "max-length": 30,
+    },
+    "dwl/window#layout": {
+        "format": "{layout}",
+        "tooltip": false,
+        "all-outputs": false,
+        "icon": false,
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#tags {
+    padding: 0px 10px;
+}
+#tags button {
+    background: transparent;
+    color: #44475a;
+    padding: 0px 5px;
+}
+#tags button.occupied {
+    background: transparent;
+    color: #f1fa8c;
+}
+#tags button.focused {
+    background: transparent;
+    box-shadow: inset 0 -3px #bd93f9;
+}
+#tags button.urgent {
+    background: transparent;
+    color: #ff5555;
+}
+#window.title {
+    background: transparent;
+    color: #f8f8f2;
+    padding: 0px 10px;
+}
+#window.layout {
+    background: transparent;
+    color: #50fa7b;
+    padding: 0px 10px;
+}
+#+END_SRC
+
+*** Disk
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "disk": {
+        "interval": 60,
+        "format": "󰋊 {percentage_used}%",
+        "tooltip": true,
+        "tooltip-format": "Used: {used} ({percentage_used}%)\nFree: {free} ({percentage_free}%)\nTotal: {total}",
+        "on-click-right": "qdirstat",
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#disk {
+    background: transparent;
+    color: #f1fa8c;
+}
+#+END_SRC
+
+*** Idle Inhibitor
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󱄄 on",
+            "deactivated": "󰶐 off",
+        },
+        "tooltip": true,
+        "tooltip-format-activated": "Idle Inhibitor: {status}",
+        "tooltip-format-deactivated": "Idle Inhibitor: {status}",
+        "start-activated": true,
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#idle_inhibitor.activated {
+    background: transparent;
+    color: #f1fa8c;
+}
+#idle_inhibitor.deactivated {
+    background: transparent;
+    color: #44475a;
+}
+#+END_SRC
+
+*** Memory
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "memory": {
+        "interval": 5,
+        "format": "  {percentage}%",
+        "tooltip": true,
+        "tooltip-format": "RAM:\n\tUsed: {used} GiB ({percentage}%)\n\tFree: {avail} GiB\n\tTotal: {total} GiB\nSwap:\n\tUsed: {swapUsed} GiB ({swapPercentage}%)\n\tFree: {swapAvail} GiB\n\tTotal: {swapTotal} GiB",
+        "on-click-right": "foot btop",
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#memory {
+    background: transparent;
+    color: #8be9fd;
+}
+#+END_SRC
+
+*** Playerctl
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "custom/media-playing-source": {
+        "exec": "~/.config/dwl/waybar/scripts/get-media-playing.sh",
+        "return-type": "json",
+        "restart-interval": 1,
+        "on-click": "~/.scripts/playerctl.sh --change",
+        "tooltip": true,
+    },
+    "custom/media-playing-prev": {
+        "format": "󰒮",
+        "on-click": "~/.scripts/playerctl.sh --prev",
+        "tooltip": false,
+    },
+    "custom/media-playing-play-pause": {
+        "exec": "~/.config/dwl/waybar/scripts/get-media-status-icon.sh",
+        "restart-interval": 1,
+        "on-click": "~/.scripts/playerctl.sh --play-pause",
+        "tooltip": false,
+    },
+    "custom/media-playing-next": {
+        "format": "󰒭",
+        "on-click": "~/.scripts/playerctl.sh --next",
+        "tooltip": false,
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+box#media-playing {
+    padding: 0px 10px;
+}
+#custom-media-playing-source {
+    background: transparent;
+    color: #ff5555;
+    padding: 0px 5px;
+}
+#custom-media-playing-prev {
+    background: transparent;
+    color: #ff5555;
+    padding: 0px 5px;
+}
+#custom-media-playing-play-pause {
+    background: transparent;
+    color: #ff5555;
+    padding: 0px 5px;
+}
+#custom-media-playing-next {
+    background: transparent;
+    color: #ff5555;
+    padding: 0px 5px;
+}
+#+END_SRC
+
+**** Script
+
+#+BEGIN_SRC shell :shebang #!/usr/bin/env bash :tangle waybar/scripts/get-media-source-icon.sh
+mediaStatus=$(playerctl --player=playerctld metadata 2>&1)
+
+if [[ "$mediaStatus" == "No player could handle this command" ]]; then
+    echo "󰡀"
+else
+    trackid=$(playerctl --player=playerctld metadata --format '{{ mpris:trackid }}')
+    title=$(playerctl --player=playerctld metadata --format '{{ xesam:title }}')
+
+    if grep -q -i "netflix" <<< "$title"; then
+        echo "󰝆"
+    elif grep -q -i "hulu" <<< "$title"; then
+        echo "󰠩"
+    elif grep -q -i "prime video" <<< "$title"; then
+        echo ""
+    elif grep -q -i "youtube tv" <<< "$title"; then
+        echo "󰑈"
+    elif grep -q -i "chromium" <<< "$trackid"; then
+        echo ""
+    elif grep -q -i "vlc" <<< "$trackid"; then
+        echo "󰕼"
+    elif grep -q -i "spotify" <<< "$trackid"; then
+        echo ""
+    else
+        echo "󰡀"
+    fi
+fi
+#+END_SRC
+
+#+BEGIN_SRC shell :shebang #!/usr/bin/env bash :tangle waybar/scripts/get-media-status-icon.sh
+mediaStatus=$(`dirname $0`/get-media-status.sh)
+
+if [[ "$mediaStatus" == "N/A" ]]; then
+    echo "󰐎"
+else
+    if [[ "$mediaStatus" == "Playing" ]]; then
+        echo "󰏤"
+    elif [[ "$mediaStatus" == "Paused" ]]; then
+        echo "󰐊"
+    fi
+fi
+#+END_SRC
+
+#+BEGIN_SRC shell :shebang #!/usr/bin/env bash :tangle waybar/scripts/get-media-status.sh
+mediaStatus=$(playerctl --player=playerctld metadata 2>&1)
+
+if [[ "$mediaStatus" == "No player could handle this command" ]]; then
+    echo "N/A"
+else
+    status=$(playerctl --player=playerctld metadata --format '{{ status }}')
+
+    echo $status
+fi
+#+END_SRC
+
+#+BEGIN_SRC shell :shebang #!/usr/bin/env bash :tangle waybar/scripts/get-media-playing.sh
+mediaSourceIcon=$(`dirname $0`/get-media-source-icon.sh)
+mediaStatus=$(playerctl --player=playerctld metadata 2>&1)
+
+if [[ "$mediaStatus" == "No player could handle this command" ]]; then
+        artist="N/A"
+        title="N/A"
+        album="N/A"
+        status="N/A"
+else
+        artist=$(playerctl --player=playerctld metadata --format '{{ xesam:artist }}')
+        title=$(playerctl --player=playerctld metadata --format '{{ xesam:title }}')
+        album=$(playerctl --player=playerctld metadata --format '{{ xesam:album }}')
+        status=$(playerctl --player=playerctld metadata --format '{{ status }}')
+
+        if [[ $artist == "" ]]; then
+            artist="N/A"
+        fi
+
+        if [[ $title == "" ]]; then
+            title="N/A"
+        fi
+
+        if [[ $album == "" ]]; then
+            album="N/A"
+        fi
+
+        if [[ $status == "" ]]; then
+            status="N/A"
+        fi
+fi
+
+echo '{"text":"'$mediaSourceIcon'","tooltip":"󰝚\t'${title//'"'/'\"'}'\r󰠃\t'${artist//'"'/'\"'}'\r󰀥\t'${album//'"'/'\"'}'\r󰐎\t'${status//'"'/'\"'}'"}'
+#+END_SRC
+
+*** Power Menu
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "custom/power-menu-launcher": {
+        "format": "",
+        "on-click": "rofi -show combi",
+        "on-click-right": "~/.scripts/control-center.sh --rofi",
+        "tooltip": true,
+        "tooltip-format": "Application Launcher",
+    },
+    "custom/power-menu-shutdown": {
+        "format": "",
+        "on-click": "~/.scripts/session.sh --shutdown",
+        "tooltip": true,
+        "tooltip-format": "Shutdown",
+    },
+    "custom/power-menu-reboot": {
+        "format": "",
+        "on-click": "~/.scripts/session.sh --reboot",
+        "tooltip": true,
+        "tooltip-format": "Reboot",
+    },
+    "custom/power-menu-sleep": {
+        "format": "⏾",
+        "on-click": "~/.scripts/session.sh --sleep",
+        "tooltip": true,
+        "tooltip-format": "Sleep",
+    },
+    "custom/power-menu-lock": {
+        "format": "",
+        "on-click": "~/.scripts/session.sh --lock",
+        "tooltip": true,
+        "tooltip-format": "Lock",
+    },
+    "custom/power-menu-logout": {
+        "format": "",
+        "on-click": "~/.scripts/session.sh --logout",
+        "tooltip": true,
+        "tooltip-format": "Logout",
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+box#power-menu {
+    padding: 0px 10px;
+}
+#custom-power-menu-launcher {
+    background: transparent;
+    color: #8be9fd;
+    padding: 0px 5px;
+}
+#custom-power-menu-shutdown {
+    background: transparent;
+    color: #ff5555;
+    padding: 0px 5px;
+}
+#custom-power-menu-reboot {
+    background: transparent;
+    color: #50fa7b;
+    padding: 0px 5px;
+}
+#custom-power-menu-sleep {
+    background: transparent;
+    color: #f1fa8c;
+    padding: 0px 5px;
+}
+#custom-power-menu-lock {
+    background: transparent;
+    color: #ff79c6;
+    padding: 0px 5px;
+}
+#custom-power-menu-logout {
+    background: transparent;
+    color: #ffb86c;
+    padding: 0px 5px;
+}
+#+END_SRC
+
+*** Pulseaudio
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "pulseaudio": {
+        "interval": 5,
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} 󰂯 {volume}%",
+        "format-muted": "󰝟 muted",
+        "format-icons": {
+            "hdmi": "󰡁",
+            "headset": "󰋎",
+            "speaker": "󰓃",
+            "headphone": "󰋋",
+            "car": "",
+            "hifi": "󰤽",
+            "default": "",
+        },
+        "scroll-step": 5,
+        "on-click": "~/.scripts/pactl.sh --mute",
+        "on-click-right": "~/.scripts/pactl.sh --mixer",
+        "tooltip": true,
+        "tooltip-format": "{desc}",
+        "scroll-step": 0.25,
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#pulseaudio {
+    background: transparent;
+    color: #ff79c6;
+}
+#+END_SRC
+
+*** System76 Power
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "custom/system76-power": {
+        "exec": "~/.config/dwl/waybar/scripts/system76-power.sh",
+        "return-type": "json",
+        "restart-interval": 60,
+        "on-click-right": "~/.scripts/cpu-gpu.sh --rofi",
+        "tooltip": true,
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#custom-system76-power {
+    background: transparent;
+    color: #50fa7b;
+}
+#+END_SRC
+
+**** Script
+
+#+BEGIN_SRC shell :shebang #!/usr/bin/env bash :tangle waybar/scripts/system76-power.sh
+profile="$(sudo system76-power profile | sed -z '$ s/\n$//' | tr '\n' '\r')"
+graphics="$(sudo system76-power graphics)"
+graphicsPower="$(sudo system76-power graphics power)"
+chargeThresholds="$(sudo system76-power charge-thresholds | sed -z '$ s/\n$//' | tr '\n' '\r')"
+
+echo '{"text":"󰢮 '$graphics'","tooltip":"󰢮\t'$graphics'\r󰐥\t'$graphicsPower'\r\r  Profile\r'$profile'\r\r󰚥 Charge Thresholds\r'$chargeThresholds'"}'
+#+END_SRC
+
+*** Tray
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "tray": {
+        "icon-size": 21,
+        "show-passive-items": true,
+        "spacing": 4,
+        "reverse-direction": false,
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#tray {
+    background: transparent;
+    padding: 0px 10px;
+}
+#+END_SRC
+
+** End Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+}
 #+END_SRC

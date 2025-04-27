@@ -1,0 +1,290 @@
+// -*- mode: jsonc -*-
+{
+
+    "layer": "top", // Waybar at top layer
+    // "output": "",
+    "position": "top", // Waybar position (top|bottom|left|right)
+    // "height": 25, // Waybar height (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    "spacing": 4, // Gaps between modules (4px)
+    "mode": "dock",
+    "start_hidden": false,
+    "fixed-center": true,
+    "reload_style_on_change": true,
+    "modules-left": [
+        "group/power-menu",
+        "dwl/tags",
+        "dwl/window#title",
+        "dwl/window#layout",
+    ],
+    "modules-center": [
+        "tray",
+    ],
+    "modules-right": [
+        "group/media-playing",
+        "pulseaudio",
+        "idle_inhibitor",
+        "custom/system76-power",
+        "cpu",
+        "memory",
+        "disk",
+        "battery",
+        "clock",
+        "group/dunst",
+    ],
+    "group/power-menu": {
+        "orientation": "inherit",
+        "modules": [
+            "custom/power-menu-launcher",
+            "custom/power-menu-shutdown",
+            "custom/power-menu-reboot",
+            "custom/power-menu-sleep",
+            "custom/power-menu-lock",
+            "custom/power-menu-logout",
+        ],
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": true,
+            "click-to-reveal": false,
+        },
+    },
+    "group/media-playing": {
+        "orientation": "inherit",
+        "modules": [
+            "custom/media-playing-source",
+            "custom/media-playing-prev",
+            "custom/media-playing-play-pause",
+            "custom/media-playing-next",
+        ],
+    },
+    "group/dunst": {
+        "orientation": "inherit",
+        "modules": [
+            "custom/dunst-status",
+            "custom/dunst-history-view",
+            "custom/dunst-clear",
+            "custom/dunst-history-clear",
+        ],
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": true,
+            "click-to-reveal": false,
+        },
+    },
+
+    "battery": {
+        "interval": 60,
+        "format": "{icon} {capacity}%",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip": true,
+        "tooltip-format": "󱧥\t{timeTo}\n󱐋\t{power} W\n󱠴\t{cycles}\n󱈏\t{health}%",
+    },
+
+    "cpu": {
+        "interval": 5,
+        "format": " {usage}%",
+        "tooltip": true,
+        "on-click-right": "foot btop",
+    },
+
+    "clock": {
+        "interval": 60,
+        "format": "󰥔 {:%I:%M %p}",
+        "tooltip": true,
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "left",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#50fa7b'><b>{}</b></span>",
+                "days":       "<span color='#f8f8f2'><b>{}</b></span>",
+                "weeks":      "<span color='#8be9fd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#f1fa8c'><b>{}</b></span>",
+                "today":      "<span color='#bd93f9'><b><u>{}</u></b></span>"
+            },
+        },
+        "actions": {
+            "on-click": "mode",
+            "on-click-right": "shift_reset",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down",
+        },
+    },
+
+    "custom/dunst-status": {
+        "exec": "~/.config/dwl/waybar/scripts/dunst.sh",
+        "restart-interval": 1,
+        "on-click": "~/.scripts/dunst.sh --dnd",
+        "on-click-right": "~/.scripts/dunst.sh --rofi",
+        "tooltip": true,
+        "tooltip-format": "Toggle Do Not Disturb",
+    },
+    "custom/dunst-clear": {
+        "format": "",
+        "on-click": "~/.scripts/dunst.sh --close-all",
+        "tooltip": true,
+        "tooltip-format": "Close Open Notifications",
+    },
+    "custom/dunst-history-view": {
+        "format": "󰋚",
+        "on-click": "~/.scripts/dunst.sh --history",
+        "tooltip": true,
+        "tooltip-format": "View Notification History",
+    },
+    "custom/dunst-history-clear": {
+        "format": "󰎟",
+        "on-click": "~/.scripts/dunst.sh --history-clear",
+        "tooltip": true,
+        "tooltip-format": "Clear Notification History",
+    },
+
+    "dwl/tags": {
+        "num-tags": 9,
+        "tag-labels": [ "󰻧 ₁", "󰍩 ₂", "󰠮 ₃", " ₄", "󰖟 ₅", " ₆", "󰊢 ₇", "󰊖 ₈", " ₉" ],
+        "disable-click": false
+    },
+    "dwl/window#title": {
+        "format": "{title}",
+        "all-outputs": false,
+        "icon": true,
+        "icon-size": 21,
+        "tooltip": true,
+        "max-length": 30,
+    },
+    "dwl/window#layout": {
+        "format": "{layout}",
+        "tooltip": false,
+        "all-outputs": false,
+        "icon": false,
+    },
+
+    "disk": {
+        "interval": 60,
+        "format": "󰋊 {percentage_used}%",
+        "tooltip": true,
+        "tooltip-format": "Used: {used} ({percentage_used}%)\nFree: {free} ({percentage_free}%)\nTotal: {total}",
+        "on-click-right": "qdirstat",
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󱄄 on",
+            "deactivated": "󰶐 off",
+        },
+        "tooltip": true,
+        "tooltip-format-activated": "Idle Inhibitor: {status}",
+        "tooltip-format-deactivated": "Idle Inhibitor: {status}",
+        "start-activated": true,
+    },
+
+    "memory": {
+        "interval": 5,
+        "format": "  {percentage}%",
+        "tooltip": true,
+        "tooltip-format": "RAM:\n\tUsed: {used} GiB ({percentage}%)\n\tFree: {avail} GiB\n\tTotal: {total} GiB\nSwap:\n\tUsed: {swapUsed} GiB ({swapPercentage}%)\n\tFree: {swapAvail} GiB\n\tTotal: {swapTotal} GiB",
+        "on-click-right": "foot btop",
+    },
+
+    "custom/media-playing-source": {
+        "exec": "~/.config/dwl/waybar/scripts/get-media-playing.sh",
+        "return-type": "json",
+        "restart-interval": 1,
+        "on-click": "~/.scripts/playerctl.sh --change",
+        "tooltip": true,
+    },
+    "custom/media-playing-prev": {
+        "format": "󰒮",
+        "on-click": "~/.scripts/playerctl.sh --prev",
+        "tooltip": false,
+    },
+    "custom/media-playing-play-pause": {
+        "exec": "~/.config/dwl/waybar/scripts/get-media-status-icon.sh",
+        "restart-interval": 1,
+        "on-click": "~/.scripts/playerctl.sh --play-pause",
+        "tooltip": false,
+    },
+    "custom/media-playing-next": {
+        "format": "󰒭",
+        "on-click": "~/.scripts/playerctl.sh --next",
+        "tooltip": false,
+    },
+
+    "custom/power-menu-launcher": {
+        "format": "",
+        "on-click": "rofi -show combi",
+        "on-click-right": "~/.scripts/control-center.sh --rofi",
+        "tooltip": true,
+        "tooltip-format": "Application Launcher",
+    },
+    "custom/power-menu-shutdown": {
+        "format": "",
+        "on-click": "~/.scripts/session.sh --shutdown",
+        "tooltip": true,
+        "tooltip-format": "Shutdown",
+    },
+    "custom/power-menu-reboot": {
+        "format": "",
+        "on-click": "~/.scripts/session.sh --reboot",
+        "tooltip": true,
+        "tooltip-format": "Reboot",
+    },
+    "custom/power-menu-sleep": {
+        "format": "⏾",
+        "on-click": "~/.scripts/session.sh --sleep",
+        "tooltip": true,
+        "tooltip-format": "Sleep",
+    },
+    "custom/power-menu-lock": {
+        "format": "",
+        "on-click": "~/.scripts/session.sh --lock",
+        "tooltip": true,
+        "tooltip-format": "Lock",
+    },
+    "custom/power-menu-logout": {
+        "format": "",
+        "on-click": "~/.scripts/session.sh --logout",
+        "tooltip": true,
+        "tooltip-format": "Logout",
+    },
+
+    "pulseaudio": {
+        "interval": 5,
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} 󰂯 {volume}%",
+        "format-muted": "󰝟 muted",
+        "format-icons": {
+            "hdmi": "󰡁",
+            "headset": "󰋎",
+            "speaker": "󰓃",
+            "headphone": "󰋋",
+            "car": "",
+            "hifi": "󰤽",
+            "default": "",
+        },
+        "scroll-step": 5,
+        "on-click": "~/.scripts/pactl.sh --mute",
+        "on-click-right": "~/.scripts/pactl.sh --mixer",
+        "tooltip": true,
+        "tooltip-format": "{desc}",
+        "scroll-step": 0.25,
+    },
+
+    "custom/system76-power": {
+        "exec": "~/.config/dwl/waybar/scripts/system76-power.sh",
+        "return-type": "json",
+        "restart-interval": 60,
+        "on-click-right": "~/.scripts/cpu-gpu.sh --rofi",
+        "tooltip": true,
+    },
+
+    "tray": {
+        "icon-size": 21,
+        "show-passive-items": true,
+        "spacing": 4,
+        "reverse-direction": false,
+    },
+
+}
