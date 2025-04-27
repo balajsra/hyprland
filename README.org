@@ -47,6 +47,7 @@
     - [[#opengl][OpenGL]]
     - [[#render][Render]]
   - [[#ecosystem][Ecosystem]]
+- [[#xdg-desktop-portal-hyprland][xdg-desktop-portal-hyprland]]
 - [[#waybar][Waybar]]
   - [[#start-configuration][Start Configuration]]
   - [[#bar][Bar]]
@@ -699,6 +700,17 @@ render {
 ecosystem {
     no_update_news = true
     no_donation_nag = true
+}
+#+END_SRC
+
+* xdg-desktop-portal-hyprland
+
+- [[https://wiki.hyprland.org/Hypr-Ecosystem/xdg-desktop-portal-hyprland/#configuration][Hyprland Wiki - Hypr Ecosystem - xdg-desktop-portal-hyprland - Configuration]]
+
+#+BEGIN_SRC conf :tangle xdph.conf
+screencopy {
+    max_fps = 0
+    allow_token_by_default = false
 }
 #+END_SRC
 
