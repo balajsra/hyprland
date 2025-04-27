@@ -71,6 +71,34 @@ box#dunst {
     color: #f1fa8c;
 }
 
+#workspaces {
+    padding: 0px 10px;
+}
+#workspaces button {
+    background: transparent;
+    color: #f1fa8c;
+    padding: 0px 5px;
+}
+#workspaces button.empty {
+    color: #44475a;
+}
+#workspaces button.active {
+    box-shadow: inset 0 -3px #bd93f9;
+}
+#workspaces button.urgent {
+    color: #ff5555;
+}
+#window.title {
+    background: transparent;
+    color: #f8f8f2;
+    padding: 0px 10px;
+}
+#window.layout {
+    background: transparent;
+    color: #50fa7b;
+    padding: 0px 10px;
+}
+
 #idle_inhibitor.activated {
     background: transparent;
     color: #f1fa8c;

@@ -49,6 +49,7 @@
     - [[#clock][Clock]]
     - [[#dunst][Dunst]]
     - [[#disk][Disk]]
+    - [[#hyprland-1][Hyprland]]
     - [[#idle-inhibitor][Idle Inhibitor]]
     - [[#memory][Memory]]
     - [[#playerctl][Playerctl]]
@@ -797,6 +798,68 @@ fi
 #disk {
     background: transparent;
     color: #f1fa8c;
+}
+#+END_SRC
+
+*** Hyprland
+
+**** Configuration
+
+#+BEGIN_SRC jsonc :tangle waybar/config.jsonc
+    "hyprland/workspaces": {
+        "active-only": false,
+        "all-outputs": false,
+        "format": "{icon}",
+        "format-icons": {
+		    "1": "󰻧 ₁",
+		    "2": "󰍩 ₂",
+		    "3": "󰠮 ₃",
+		    "4": " ₄",
+		    "5": "󰖟 ₅",
+            "6": " ₆",
+            "7": "󰊢 ₇",
+            "8": "󰊖 ₈",
+            "9": " ₉",
+	    },
+        "show-special": true,
+        "special-visible-only": true,
+        "move-to-monitor": false,
+    },
+    "hyprland/window": {
+    },
+    "hyprland/submap": {
+    },
+#+END_SRC
+
+**** Styling
+
+#+BEGIN_SRC css :tangle waybar/style.css
+#workspaces {
+    padding: 0px 10px;
+}
+#workspaces button {
+    background: transparent;
+    color: #f1fa8c;
+    padding: 0px 5px;
+}
+#workspaces button.empty {
+    color: #44475a;
+}
+#workspaces button.active {
+    box-shadow: inset 0 -3px #bd93f9;
+}
+#workspaces button.urgent {
+    color: #ff5555;
+}
+#window.title {
+    background: transparent;
+    color: #f8f8f2;
+    padding: 0px 10px;
+}
+#window.layout {
+    background: transparent;
+    color: #50fa7b;
+    padding: 0px 10px;
 }
 #+END_SRC
 
