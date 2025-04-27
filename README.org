@@ -9,6 +9,10 @@
   - [[#monitors][Monitors]]
   - [[#variables][Variables]]
   - [[#autostart][Autostart]]
+    - [[#status-bar][Status Bar]]
+    - [[#background-processes][Background Processes]]
+    - [[#display--compositor-setup][Display / Compositor Setup]]
+    - [[#applications][Applications]]
   - [[#environment-variables][Environment Variables]]
   - [[#permissions][Permissions]]
   - [[#look-and-feel][Look and Feel]]
@@ -113,12 +117,34 @@ exec-once = uwsm app -- mycommand --arg1 --arg2
 bind = SUPER, E, exec, uwsm app -- pcmanfm-qt.desktop
 #+END_EXAMPLE
 
+*** Status Bar
+
 #+BEGIN_SRC conf :tangle hyprland.conf
 exec-once = uwsm app -- waybar --config $HOME/.config/hypr/waybar/config.jsonc --style $HOME/.config/hypr/waybar/style.css &
+#+END_SRC
+
+*** Background Processes
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+exec-once = uwsm app -- swayidle &
+exec-once = uwsm app -- /usr/libexec/polkit-gnome-authentication-agent-1 &
 exec-once = uwsm app -- kdeconnectd --replace &
 exec-once = uwsm app -- $HOME/.scripts/dunst.sh --on &
+exec-once = uwsm app -- wl-paste --type text --watch cliphist store &
+exec-once = uwsm app -- wl-paste --type image --watch cliphist store &
+#+END_SRC
+
+*** Display / Compositor Setup
+
+#+BEGIN_SRC conf :tangle hyprland.conf
 exec-once = uwsm app -- shikane &
+exec-once = uwsm app -- $HOME/.azotebg &
 exec-once = uwsm app -- gammastep -x &
+#+END_SRC
+
+*** Applications
+
+#+BEGIN_SRC conf :tangle hyprland.conf
 exec-once = uwsm app -- blueman-applet &
 exec-once = uwsm app -- nm-applet &
 exec-once = uwsm app -- kdeconnect-indicator &
