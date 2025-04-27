@@ -117,15 +117,15 @@ bind = SUPER, E, exec, uwsm app -- pcmanfm-qt.desktop
 exec-once = uwsm app -- waybar --config $HOME/.config/hypr/waybar/config.jsonc --style $HOME/.config/hypr/waybar/style.css &
 exec-once = uwsm app -- kdeconnectd --replace &
 exec-once = uwsm app -- $HOME/.scripts/dunst.sh --on &
-exec-once = uwsm app -- shikane
-exec-once = uwsm app -- gammastep -x
+exec-once = uwsm app -- shikane &
+exec-once = uwsm app -- gammastep -x &
 exec-once = uwsm app -- blueman-applet &
 exec-once = uwsm app -- nm-applet &
 exec-once = uwsm app -- kdeconnect-indicator &
 exec-once = uwsm app -- udiskie -a -n -s &
 exec-once = uwsm app -- nextcloud &
 exec-once = uwsm app -- syncthing-gtk &
-exec-once = uwsm app -- openrgb
+exec-once = uwsm app -- openrgb &
 #+END_SRC
 
 ** Environment Variables
@@ -709,28 +709,28 @@ button {
 
 #+BEGIN_SRC jsonc :tangle waybar/config.jsonc
     "custom/dunst-status": {
-        "exec": "~/.config/hypr/waybar/scripts/dunst.sh",
+        "exec": "uwsm app -- $HOME/.config/hypr/waybar/scripts/dunst.sh",
         "restart-interval": 1,
-        "on-click": "~/.scripts/dunst.sh --dnd",
-        "on-click-right": "~/.scripts/dunst.sh --rofi",
+        "on-click": "uwsm app -- $HOME/.scripts/dunst.sh --dnd",
+        "on-click-right": "uwsm app -- $HOME/.scripts/dunst.sh --rofi",
         "tooltip": true,
         "tooltip-format": "Toggle Do Not Disturb",
     },
     "custom/dunst-clear": {
         "format": "",
-        "on-click": "~/.scripts/dunst.sh --close-all",
+        "on-click": "uwsm app -- $HOME/.scripts/dunst.sh --close-all",
         "tooltip": true,
         "tooltip-format": "Close Open Notifications",
     },
     "custom/dunst-history-view": {
         "format": "󰋚",
-        "on-click": "~/.scripts/dunst.sh --history",
+        "on-click": "uwsm app -- $HOME/.scripts/dunst.sh --history",
         "tooltip": true,
         "tooltip-format": "View Notification History",
     },
     "custom/dunst-history-clear": {
         "format": "󰎟",
-        "on-click": "~/.scripts/dunst.sh --history-clear",
+        "on-click": "uwsm app -- $HOME/.scripts/dunst.sh --history-clear",
         "tooltip": true,
         "tooltip-format": "Clear Notification History",
     },
@@ -787,7 +787,7 @@ fi
         "format": "󰋊 {percentage_used}%",
         "tooltip": true,
         "tooltip-format": "Used: {used} ({percentage_used}%)\nFree: {free} ({percentage_free}%)\nTotal: {total}",
-        "on-click-right": "qdirstat",
+        "on-click-right": "uwsm app -- qdirstat",
     },
 #+END_SRC
 
@@ -841,7 +841,7 @@ fi
         "format": "  {percentage}%",
         "tooltip": true,
         "tooltip-format": "RAM:\n\tUsed: {used} GiB ({percentage}%)\n\tFree: {avail} GiB\n\tTotal: {total} GiB\nSwap:\n\tUsed: {swapUsed} GiB ({swapPercentage}%)\n\tFree: {swapAvail} GiB\n\tTotal: {swapTotal} GiB",
-        "on-click-right": "foot btop",
+        "on-click-right": "uwsm app -- foot btop",
     },
 #+END_SRC
 
@@ -860,26 +860,26 @@ fi
 
 #+BEGIN_SRC jsonc :tangle waybar/config.jsonc
     "custom/media-playing-source": {
-        "exec": "~/.config/hypr/waybar/scripts/get-media-playing.sh",
+        "exec": "uwsm app -- $HOME/.config/hypr/waybar/scripts/get-media-playing.sh",
         "return-type": "json",
         "restart-interval": 1,
-        "on-click": "~/.scripts/playerctl.sh --change",
+        "on-click": "uwsm app -- $HOME/.scripts/playerctl.sh --change",
         "tooltip": true,
     },
     "custom/media-playing-prev": {
         "format": "󰒮",
-        "on-click": "~/.scripts/playerctl.sh --prev",
+        "on-click": "uwsm app -- $HOME/.scripts/playerctl.sh --prev",
         "tooltip": false,
     },
     "custom/media-playing-play-pause": {
-        "exec": "~/.config/hypr/waybar/scripts/get-media-status-icon.sh",
+        "exec": "uwsm app -- $HOME/.config/hypr/waybar/scripts/get-media-status-icon.sh",
         "restart-interval": 1,
-        "on-click": "~/.scripts/playerctl.sh --play-pause",
+        "on-click": "uwsm app -- $HOME/.scripts/playerctl.sh --play-pause",
         "tooltip": false,
     },
     "custom/media-playing-next": {
         "format": "󰒭",
-        "on-click": "~/.scripts/playerctl.sh --next",
+        "on-click": "uwsm app -- $HOME/.scripts/playerctl.sh --next",
         "tooltip": false,
     },
 #+END_SRC
@@ -1011,38 +1011,38 @@ echo '{"text":"'$mediaSourceIcon'","tooltip":"󰝚\t'${title//'"'/'\"'}'\r󰠃\t
 #+BEGIN_SRC jsonc :tangle waybar/config.jsonc
     "custom/power-menu-launcher": {
         "format": "",
-        "on-click": "rofi -show combi",
-        "on-click-right": "~/.scripts/control-center.sh --rofi",
+        "on-click": "rofi -show combi -run-command 'uwsm app -- {cmd}'",
+        "on-click-right": "uwsm app -- $HOME/.scripts/control-center.sh --rofi",
         "tooltip": true,
         "tooltip-format": "Application Launcher",
     },
     "custom/power-menu-shutdown": {
         "format": "",
-        "on-click": "~/.scripts/session.sh --shutdown",
+        "on-click": "uwsm app -- $HOME/.scripts/session.sh --shutdown",
         "tooltip": true,
         "tooltip-format": "Shutdown",
     },
     "custom/power-menu-reboot": {
         "format": "",
-        "on-click": "~/.scripts/session.sh --reboot",
+        "on-click": "uwsm app -- $HOME/.scripts/session.sh --reboot",
         "tooltip": true,
         "tooltip-format": "Reboot",
     },
     "custom/power-menu-sleep": {
         "format": "⏾",
-        "on-click": "~/.scripts/session.sh --sleep",
+        "on-click": "uwsm app -- $HOME/.scripts/session.sh --sleep",
         "tooltip": true,
         "tooltip-format": "Sleep",
     },
     "custom/power-menu-lock": {
         "format": "",
-        "on-click": "~/.scripts/session.sh --lock",
+        "on-click": "uwsm app -- $HOME/.scripts/session.sh --lock",
         "tooltip": true,
         "tooltip-format": "Lock",
     },
     "custom/power-menu-logout": {
         "format": "",
-        "on-click": "~/.scripts/session.sh --logout",
+        "on-click": "uwsm app -- $HOME/.scripts/session.sh --logout",
         "tooltip": true,
         "tooltip-format": "Logout",
     },
@@ -1106,8 +1106,8 @@ box#power-menu {
             "default": "",
         },
         "scroll-step": 5,
-        "on-click": "~/.scripts/pactl.sh --mute",
-        "on-click-right": "~/.scripts/pactl.sh --mixer",
+        "on-click": "uwsm app -- $HOME/.scripts/pactl.sh --mute",
+        "on-click-right": "uwsm app -- $HOME/.scripts/pactl.sh --mixer",
         "tooltip": true,
         "tooltip-format": "{desc}",
         "scroll-step": 0.25,
@@ -1129,10 +1129,10 @@ box#power-menu {
 
 #+BEGIN_SRC jsonc :tangle waybar/config.jsonc
     "custom/system76-power": {
-        "exec": "~/.config/hypr/waybar/scripts/system76-power.sh",
+        "exec": "uwsm app -- $HOME/.config/hypr/waybar/scripts/system76-power.sh",
         "return-type": "json",
         "restart-interval": 60,
-        "on-click-right": "~/.scripts/cpu-gpu.sh --rofi",
+        "on-click-right": "uwsm app -- $HOME/.scripts/cpu-gpu.sh --rofi",
         "tooltip": true,
     },
 #+END_SRC
