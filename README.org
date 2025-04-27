@@ -24,10 +24,12 @@
     - [[#device][Device]]
   - [[#keybindings][Keybindings]]
     - [[#mod-key][Mod Key]]
+    - [[#session-control][Session Control]]
     - [[#launch-programs][Launch Programs]]
+    - [[#control-windows--layout][Control Windows / Layout]]
     - [[#move-focus][Move Focus]]
     - [[#switch-workspaces][Switch Workspaces]]
-    - [[#move-windows][Move Windows]]
+    - [[#move-windows-to-workspace][Move Windows to Workspace]]
     - [[#special-workspace][Special Workspace]]
     - [[#workspace-scroll][Workspace Scroll]]
     - [[#move--resize-windows][Move / Resize Windows]]
@@ -298,15 +300,26 @@ device {
 $mainMod = SUPER # Sets "Windows" key as main modifier
 #+END_SRC
 
+*** Session Control
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod SHIFT, Q, exit,
+#+END_SRC
+
 *** Launch Programs
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 bind = $mainMod SHIFT, Return, exec, $terminal
-bind = $mainMod SHIFT, C, killactive,
-bind = $mainMod SHIFT, Q, exit,
 bind = $mainMod, E, exec, $fileManager
-bind = $mainMod, F, togglefloating,
 bind = $mainMod, P, exec, $menu
+#+END_SRC
+
+*** Control Windows / Layout
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod SHIFT, C, killactive,
+bind = $mainMod SHIFT, F, fullscreen
+bind = $mainMod, F, togglefloating,
 bind = $mainMod, D, pseudo, # dwindle
 bind = $mainMod, S, togglesplit, # dwindle
 #+END_SRC
@@ -339,7 +352,7 @@ bind = $mainMod, 9, workspace, 9
 bind = $mainMod, 0, workspace, 10
 #+END_SRC
 
-*** Move Windows
+*** Move Windows to Workspace
 
 Move active window to a workspace with mainMod + SHIFT + [0-9]
 
