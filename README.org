@@ -149,7 +149,7 @@ exec-once = uwsm app -- wl-paste --type image --watch cliphist store &
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 exec-once = uwsm app -- shikane &
-exec-once = uwsm app -- $HOME/.azotebg &
+exec-once = uwsm app -- $HOME/.azotebg-hyprland &
 exec-once = uwsm app -- gammastep -x &
 #+END_SRC
 
