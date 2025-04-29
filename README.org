@@ -54,6 +54,11 @@
   - [[#listeners][Listeners]]
 - [[#hyprlock][Hyprlock]]
   - [[#general-2][General]]
+  - [[#authentication][Authentication]]
+  - [[#animations-1][Animations]]
+  - [[#widgets][Widgets]]
+    - [[#background][Background]]
+    - [[#input-field][Input Field]]
 - [[#waybar][Waybar]]
   - [[#start-configuration][Start Configuration]]
   - [[#bar][Bar]]
@@ -532,6 +537,12 @@ bind = $mainMod, 9, workspace, 9
 bind = $mainMod, 0, workspace, 10
 #+END_SRC
 
+Switch between most recent workspace
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod, Tab, workspace, previous_per_monitor
+#+END_SRC
+
 *** Move Windows to Workspace
 
 Move active window to a workspace with mainMod + SHIFT + [0-9]
@@ -775,6 +786,65 @@ general {
     fractional_scaling = 2
     screencopy_mode = 0
     fail_timeout = 2000
+}
+#+END_SRC
+
+** Authentication
+
+#+BEGIN_SRC conf :tangle hyprlock.conf
+auth {
+    pam {
+        enabled = true
+        module = hyprlock
+    }
+}
+#+END_SRC
+
+** Animations
+
+#+BEGIN_SRC conf :tangle hyprlock.conf
+animations {
+    enabled = true
+}
+#+END_SRC
+
+** Widgets
+
+*** Background
+
+#+BEGIN_SRC conf :tangle hyprlock.conf
+background {
+    monitor =
+    path = screenshot
+    blur_passes = 5
+    blur_size = 9
+    noise = 0.0117
+    contrast = 0.8916
+    brightness = 0.8172
+    vibrancy = 0.1696
+    vibrancy_darkness = 0.05
+}
+#+END_SRC
+
+*** Input Field
+
+#+BEGIN_SRC conf :tangle hyprlock.conf
+input-field {
+    monitor =
+    size = 20%, 5%
+    outline_thickness = 5
+    dots_size = 0.25
+    dots_spacing = 0.30
+    dots_center = true
+    dots_rounding = -1
+    outer_color = rgba(8be9fdff) rgba(bd93f9ff) 45deg
+    inner_color = rgba(282a36ff)
+    font_color = rgba(f8f8f2ff)
+    font_family = Noto Sans
+    fade_on_empty = true
+    fade_timeout = 2000
+    check_color = rgba(f1fa8cff)
+    fail_color = rgba(ff5555ff)
 }
 #+END_SRC
 
