@@ -78,6 +78,7 @@
     - [[#system76-power][System76 Power]]
     - [[#tray][Tray]]
   - [[#end-configuration][End Configuration]]
+  - [[#toggle-script][Toggle Script]]
 
 * Welcome
 
@@ -115,6 +116,7 @@ $terminal = foot
 $fileManager = thunar
 $menu = rofi -show combi -run-command "uwsm app -- {cmd}"
 $colorPicker = hyprpicker -a
+$toggleBar = $HOME/.config/hypr/waybar/scripts/toggleBarService.sh
 #+END_SRC
 
 ** Autostart
@@ -472,6 +474,7 @@ bind = $mainMod SHIFT, Return, exec, uwsm app -- $terminal
 bind = $mainMod, E, exec, uwsm app -- $fileManager
 bind = $mainMod, P, exec, uwsm app -- $menu
 bind = $mainMod, G, exec, uwsm app -- $colorPicker
+bind = $mainMod, B, exec, uwsm app -- $toggleBar
 bind = $mainMod CTRL, P, exec, uwsm app -- $HOME/.scripts/control-center.sh --rofi
 bind = $mainMod CTRL, C, exec, uwsm app -- cliphist list | rofi -dmenu | cliphist decode | wl-copy
 bind = $mainMod CTRL, D, exec, uwsm app -- $HOME/.scripts/brightness.sh --rofi
@@ -1603,4 +1606,14 @@ echo '{"text":"󰢮 '$graphics'","tooltip":"󰢮\t'$graphics'\r󰐥\t'$graphicsP
 
 #+BEGIN_SRC jsonc :tangle waybar/config.jsonc
 }
+#+END_SRC
+
+** Toggle Script
+
+#+BEGIN_SRC shell :shebang #!/usr/bin/env bash :tangle waybar/scripts/toggleBarService.sh
+if systemctl --user is-active waybar.service; then
+    systemctl --user stop waybar.service
+else
+    systemctl --user start waybar.service
+fi
 #+END_SRC
