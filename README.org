@@ -114,6 +114,7 @@ monitor = , preferred, auto, 1
 $terminal = foot
 $fileManager = thunar
 $menu = rofi -show combi -run-command "uwsm app -- {cmd}"
+$colorPicker = hyprpicker -a
 #+END_SRC
 
 ** Autostart
@@ -470,6 +471,7 @@ bind = $mainMod SHIFT, Q, exec, loginctl terminate-user ""
 bind = $mainMod SHIFT, Return, exec, uwsm app -- $terminal
 bind = $mainMod, E, exec, uwsm app -- $fileManager
 bind = $mainMod, P, exec, uwsm app -- $menu
+bind = $mainMod, G, exec, uwsm app -- $colorPicker
 bind = $mainMod CTRL, P, exec, uwsm app -- $HOME/.scripts/control-center.sh --rofi
 bind = $mainMod CTRL, C, exec, uwsm app -- cliphist list | rofi -dmenu | cliphist decode | wl-copy
 bind = $mainMod CTRL, D, exec, uwsm app -- $HOME/.scripts/brightness.sh --rofi
