@@ -485,6 +485,7 @@ General
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 bind = $mainMod SHIFT, C, killactive
+bind = $mainMod CTRL SHIFT, C, forcekillactive
 bind = $mainMod SHIFT, F, fullscreen
 bind = $mainMod, F, togglefloating
 #+END_SRC
