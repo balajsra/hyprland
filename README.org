@@ -10,7 +10,7 @@
   - [[#variables][Variables]]
   - [[#autostart][Autostart]]
     - [[#background-processes][Background Processes]]
-    - [[#display--compositor-setup][Display / Compositor Setup]]
+    - [[#desktop-setup][Desktop Setup]]
     - [[#applications][Applications]]
   - [[#environment-variables][Environment Variables]]
   - [[#permissions][Permissions]]
@@ -148,12 +148,13 @@ exec-once = uwsm app -- wl-paste --type text --watch cliphist store &
 exec-once = uwsm app -- wl-paste --type image --watch cliphist store &
 #+END_SRC
 
-*** Display / Compositor Setup
+*** Desktop Setup
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 exec-once = uwsm app -- shikane &
 exec-once = uwsm app -- $HOME/.azotebg-hyprland &
 exec-once = uwsm app -- gammastep -x &
+exec-once = uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 25% &
 #+END_SRC
 
 *** Applications
