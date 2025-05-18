@@ -84,7 +84,7 @@
         "interval": 5,
         "format": " {usage}%",
         "tooltip": true,
-        "on-click-right": "foot btop",
+        "on-click-right": "uwsm app -- foot btop",
     },
 
     "clock": {
