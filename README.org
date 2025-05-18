@@ -817,15 +817,7 @@ animations {
 #+BEGIN_SRC conf :tangle hyprlock.conf
 background {
     monitor =
-    path = screenshot
-    blur_passes = 5
-    blur_size = 9
-    color = rgba(282a36ff)
-    noise = 0.0117
-    contrast = 0.8916
-    brightness = 0.8172
-    vibrancy = 0.1696
-    vibrancy_darkness = 0.05
+    path = ~/Data/NextCloud/Wallpapers/Desktop/Solar_System.png
 }
 #+END_SRC
 
