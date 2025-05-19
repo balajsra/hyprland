@@ -596,6 +596,13 @@ bind = $mainMod SHIFT, K, movewindow, u
 bind = $mainMod SHIFT, J, movewindow, d
 #+END_SRC
 
+Move windows to monitors with mainMod + SHIFT + <>
+
+#+BEGIN_SRC conf :tangle hyprland.conf
+bind = $mainMod SHIFT, period, movewindow, mon:+1
+bind = $mainMod SHIFT, comma, movewindow, mon:-1
+#+END_SRC
+
 Move/resize windows with mainMod + LMB/RMB and dragging
 
 #+BEGIN_SRC conf :tangle hyprland.conf
