@@ -152,7 +152,7 @@ exec-once = uwsm app -- wl-paste --type image --watch cliphist store &
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 exec-once = uwsm app -- shikane &
-exec-once = uwsm app -- waypaper --random &
+exec-once = uwsm app -- waypaper --restore &
 exec-once = uwsm app -- gammastep -x &
 exec-once = uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 25% &
 #+END_SRC
