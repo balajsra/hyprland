@@ -154,6 +154,7 @@ exec-once = uwsm app -- wl-paste --type image --watch cliphist store &
 *** Desktop Setup
 
 #+BEGIN_SRC conf :tangle hyprland.conf
+exec-once = uwsm app -- hyprctl setcursor breeze-hacked-cursor-theme 24 &
 exec-once = uwsm app -- hyprpm reload -n &
 exec-once = uwsm app -- shikane &
 exec-once = uwsm app -- waypaper --restore &
@@ -167,6 +168,7 @@ exec-once = uwsm app -- wpctl set-volume @DEFAULT_AUDIO_SINK@ 25% &
 exec-once = uwsm app -- blueman-applet &
 exec-once = uwsm app -- nm-applet &
 exec-once = uwsm app -- kdeconnect-indicator &
+exec-once = uwsm app -- gammastep-indicator &
 exec-once = uwsm app -- udiskie -a -n -s &
 exec-once = uwsm app -- nextcloud &
 exec-once = uwsm app -- syncthing-gtk &
@@ -246,8 +248,8 @@ decoration {
 
     blur {
         enabled = true
-        size = 8
-        passes = 1
+        size = 5
+        passes = 3
         ignore_opacity = true
         new_optimizations = true
         xray = true
