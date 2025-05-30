@@ -850,9 +850,9 @@ screencopy {
 
 #+BEGIN_SRC conf :tangle hypridle.conf
 general {
-    lock_cmd = pgrep hyprlock || (hyprlock && sleep 3)   # avoid starting multiple hyprlock instances
-    before_sleep_cmd = loginctl lock-session && sleep 3  # lock before suspend
-    after_sleep_cmd = hyprctl dispatch dpms on           # to avoid having to press a key to turn on the display
+    lock_cmd = pgrep hyprlock || hyprlock       # avoid starting multiple hyprlock instances
+    before_sleep_cmd = loginctl lock-session    # lock before suspend
+    after_sleep_cmd = hyprctl dispatch dpms on  # to avoid having to press a key to turn on the display
     ignore_dbus_inhibit = false
     ignore_systemd_inhibit = false
     inhibit_sleep = 2
