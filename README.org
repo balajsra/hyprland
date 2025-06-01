@@ -915,7 +915,7 @@ auth {
 
 #+BEGIN_SRC conf :tangle hyprlock.conf
 animations {
-    enabled = true
+    enabled = false
 }
 #+END_SRC
 
@@ -926,14 +926,8 @@ animations {
 #+BEGIN_SRC conf :tangle hyprlock.conf
 background {
     monitor =
-    path = screenshot
-    blur_size = 5
-    blur_passes = 5
-    noise = 0.0117
-    contrast = 0.8916
-    brightness = 1.0
-    vibrancy = 0.1696
-    vibrancy_darkness = 0.0
+    path = ~/Data/NextCloud/Wallpapers/Desktop/Solar_System.png
+    color = rgba(282a36ff)
 }
 #+END_SRC
 
