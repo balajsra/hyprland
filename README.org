@@ -149,6 +149,7 @@ exec-once = uwsm app -- fumon &
 exec-once = uwsm app -- kdeconnectd --replace &
 exec-once = uwsm app -- wl-paste --type text --watch cliphist store &
 exec-once = uwsm app -- wl-paste --type image --watch cliphist store &
+exec-once = uwsm app -- $HOME/.scripts/dunst.sh --on &
 #+END_SRC
 
 *** Desktop Setup
