@@ -712,8 +712,6 @@ opengl {
 
 #+BEGIN_SRC conf :tangle hyprland.conf
 render {
-    explicit_sync = 2
-    explicit_sync_kms = 2
     direct_scanout = 2
     expand_undersized_textures = true
     xp_mode = false
